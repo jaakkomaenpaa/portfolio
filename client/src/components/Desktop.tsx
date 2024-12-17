@@ -15,11 +15,11 @@ const StyledDesktop = styled(Box)({
   position: 'relative',
   width: '100%',
   height: '100%',
-  backgroundColor: '#1e1e1e',
+  backgroundColor: 'background.default',
   display: 'flex',
   flexWrap: 'wrap',
   padding: '16px',
-  color: '#ffffff',
+  color: 'text.primary',
 })
 
 const AppIcon = styled(Box)({
@@ -38,8 +38,8 @@ const AppWindow = styled(Box)({
   position: 'absolute',
   width: '300px',
   minHeight: '200px',
-  backgroundColor: '#ffffff',
-  color: '#000000',
+  backgroundColor: 'background.paper',
+  color: 'text.primary',
   boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.4)',
   borderRadius: '8px',
   overflow: 'hidden',
@@ -86,8 +86,8 @@ const Desktop = () => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                backgroundColor: '#1976d2',
-                color: '#ffffff',
+                backgroundColor: 'primary.main',
+                color: 'text.primary',
                 padding: '8px',
               }}
             >

@@ -19,8 +19,8 @@ const Taskbar = () => {
       sx={{
         top: 'auto',
         bottom: 0,
-        backgroundColor: '#121212',
-        color: '#ffffff',
+        backgroundColor: 'background.paper',
+        color: 'text.primary',
         display: 'flex',
       }}
     >
@@ -41,9 +41,11 @@ const Taskbar = () => {
           <IconButton color='inherit' size='small'>
             <NotificationsIcon />
           </IconButton>
+
           <IconButton color='inherit' size='small'>
             <BatteryChargingFullIcon />
           </IconButton>
+
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <AccessTimeIcon sx={{ mr: 0.5 }} />
             <Typography variant='body2'>
