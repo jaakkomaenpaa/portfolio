@@ -1,5 +1,6 @@
 import { Box, CssBaseline } from '@mui/material'
 import Taskbar from './components/Taskbar'
+import Desktop from './components/Desktop'
 
 const App = () => {
   return (
@@ -15,10 +16,9 @@ const App = () => {
         }}
       >
         <Box sx={{ flexGrow: 1 }}>
-          <h1 style={{ textAlign: 'center', marginTop: '20%' }}>
-            Welcome to My OS Portfolio!
-          </h1>
+          <Desktop />
         </Box>
+
         <Taskbar />
       </Box>
     </>
