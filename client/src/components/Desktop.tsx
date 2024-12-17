@@ -11,16 +11,16 @@ interface WindowProps {
   content: ReactNode
 }
 
-const StyledDesktop = styled(Box)({
+const StyledDesktop = styled(Box)(({ theme }) => ({
   position: 'relative',
   width: '100%',
   height: '100%',
-  backgroundColor: 'background.default',
+  backgroundColor: theme.palette.background.default,
   display: 'flex',
   flexWrap: 'wrap',
   padding: '16px',
-  color: 'text.primary',
-})
+  color: theme.palette.text.primary,
+}))
 
 const AppIcon = styled(Box)({
   width: '80px',
@@ -34,16 +34,16 @@ const AppIcon = styled(Box)({
   '&:hover': { opacity: 0.8 },
 })
 
-const AppWindow = styled(Box)({
+const AppWindow = styled(Box)(({ theme }) => ({
   position: 'absolute',
   width: '300px',
   minHeight: '200px',
-  backgroundColor: 'background.paper',
-  color: 'text.primary',
+  backgroundColor: theme.palette.background.default,
+  color: theme.palette.text.primary,
   boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.4)',
   borderRadius: '8px',
   overflow: 'hidden',
-})
+}))
 
 const Desktop = () => {
   const [windows, setWindows] = useState<WindowProps[]>([])
