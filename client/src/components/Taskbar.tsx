@@ -1,16 +1,40 @@
 import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import MenuIcon from '@mui/icons-material/Menu'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
+import StartMenu from './StartMenu'
 
 const Taskbar = () => {
   const [currentTime, setCurrentTime] = useState<Date>(new Date())
+  const [openMenu, setOpenMenu] = useState(false)
+  const menuRef = useRef<HTMLDivElement | null>(null)
+
+  const toggleMenu = () => {
+    setOpenMenu((prev) => !prev)
+  }
+
+  const closeMenu = () => {
+    setOpenMenu(false)
+  }
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000)
     return () => clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        closeMenu()
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
   }, [])
 
   return (
@@ -26,8 +50,13 @@ const Taskbar = () => {
       }}
     >
       <Toolbar>
+        {openMenu && (
+          <div ref={menuRef}>
+            <StartMenu closeMenu={toggleMenu} />
+          </div>
+        )}
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton color='inherit' size='large'>
+          <IconButton color='inherit' size='large' onClick={toggleMenu}>
             <MenuIcon sx={{ fontSize: 32 }} />
           </IconButton>
         </Box>
