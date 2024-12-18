@@ -9,6 +9,7 @@ interface FolderStore {
 
 const getSavedFolders = (): Folder[] => {
   const folders = localStorage.getItem('folders')
+
   if (folders) {
     return JSON.parse(folders)
   }

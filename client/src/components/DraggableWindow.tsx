@@ -21,7 +21,7 @@ const AppWindow = styled(Box)(({ theme }) => ({
 
 const DraggableWindow = ({ window, closeWindow }: DraggableWindowProps) => {
   return (
-    <Draggable nodeRef={window.dragRef} key={window.id}>
+    <Draggable nodeRef={window.dragRef}>
       <div ref={window.dragRef}>
         <AppWindow>
           <Box

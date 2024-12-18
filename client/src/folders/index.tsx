@@ -8,35 +8,47 @@ import config from '../config'
 
 const { GRID_SIZE_X } = config
 
+export const getFolderContent = (title: string) => {
+  switch (title) {
+    case 'Portfolio':
+      return <Portfolio />
+    case 'About me':
+      return <AboutMe />
+    case 'Skills':
+      return <Skills />
+    case 'Education':
+      return <Education />
+    case 'Experience':
+      return <Experience />
+    default:
+      return null
+  }
+}
+
 const DEFAULT_FOLDERS: Folder[] = [
   {
     id: 1,
     title: 'Portfolio',
-    content: <Portfolio />,
     position: { x: 0, y: 0 },
   },
   {
     id: 2,
     title: 'About me',
-    content: <AboutMe />,
     position: { x: GRID_SIZE_X, y: 0 },
   },
   {
     id: 3,
     title: 'Skills',
-    content: <Skills />,
     position: { x: GRID_SIZE_X * 2, y: 0 },
   },
   {
     id: 4,
     title: 'Education',
-    content: <Education />,
     position: { x: GRID_SIZE_X * 3, y: 0 },
   },
   {
     id: 5,
     title: 'Experience',
-    content: <Experience />,
     position: { x: GRID_SIZE_X * 4, y: 0 },
   },
 ]

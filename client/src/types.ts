@@ -10,7 +10,6 @@ export interface Window {
 export interface Folder {
   id: number
   title: string
-  content: ReactNode
   position: Position
 }
 

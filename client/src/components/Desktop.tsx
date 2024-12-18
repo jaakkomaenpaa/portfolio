@@ -8,6 +8,8 @@ import { useWindowStore } from '../stores/WindowStore'
 import { useFolderStore } from '../stores/FolderStore'
 import { Folder, Position } from '../types'
 import config from '../config'
+import { createRef, RefObject, useRef } from 'react'
+import { getFolderContent } from '../folders'
 
 const { GRID_SIZE_X, GRID_SIZE_Y, FOLDER_SIZE } = config
 
@@ -71,11 +73,14 @@ const Desktop = () => {
   const { windows, actions } = useWindowStore()
   const { openWindow, closeWindow } = actions
 
+  const draggableRefs = useRef<Record<number, RefObject<HTMLDivElement>>>({})
+
   return (
     <StyledDesktop>
       {folders.map((folder: Folder) => (
         <Draggable
           key={folder.id}
+          nodeRef={(draggableRefs.current[folder.id] = createRef())}
           position={folder.position}
           onStop={(_, data) => {
             const snappedPosition = snapToGrid(data.x, data.y)
@@ -87,15 +92,21 @@ const Desktop = () => {
             updateFolderPosition(folder.id, resolvedPosition)
           }}
         >
-          <AppIcon onDoubleClick={() => openWindow(folder.title, folder.content)}>
-            <FolderIcon fontSize='large' />
-            <Typography variant='body2'>{folder.title}</Typography>
-          </AppIcon>
+          <div ref={draggableRefs.current[folder.id]}>
+            <AppIcon
+              onDoubleClick={() =>
+                openWindow(folder.title, getFolderContent(folder.title))
+              }
+            >
+              <FolderIcon fontSize='large' />
+              <Typography variant='body2'>{folder.title}</Typography>
+            </AppIcon>
+          </div>
         </Draggable>
       ))}
 
       {windows.map((window) => (
-        <DraggableWindow window={window} closeWindow={closeWindow} />
+        <DraggableWindow key={window.id} window={window} closeWindow={closeWindow} />
       ))}
     </StyledDesktop>
   )
