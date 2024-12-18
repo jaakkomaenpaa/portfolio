@@ -6,7 +6,10 @@ import Draggable from 'react-draggable'
 import DraggableWindow from './DraggableWindow'
 import { useWindowStore } from '../stores/WindowStore'
 import { useFolderStore } from '../stores/FolderStore'
-import { Folder } from '../types'
+import { Folder, Position } from '../types'
+import config from '../config'
+
+const { GRID_SIZE_X, GRID_SIZE_Y, FOLDER_SIZE } = config
 
 const StyledDesktop = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -20,16 +23,48 @@ const StyledDesktop = styled(Box)(({ theme }) => ({
 }))
 
 const AppIcon = styled(Box)({
-  width: '80px',
-  height: '80px',
-  margin: '16px',
+  width: FOLDER_SIZE,
+  height: FOLDER_SIZE,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
+  position: 'absolute',
   cursor: 'pointer',
   '&:hover': { opacity: 0.8 },
 })
+
+const snapToGrid = (x: number, y: number) => ({
+  x: Math.round(x / GRID_SIZE_X) * GRID_SIZE_X,
+  y: Math.round(y / GRID_SIZE_Y) * GRID_SIZE_Y,
+})
+
+const isColliding = (pos1: Position, pos2: Position) => {
+  return (
+    pos1.x < pos2.x + FOLDER_SIZE &&
+    pos1.x + FOLDER_SIZE > pos2.x &&
+    pos1.y < pos2.y + FOLDER_SIZE &&
+    pos1.y + FOLDER_SIZE > pos2.y
+  )
+}
+
+const resolveCollision = (folders: Folder[], id: number, position: Position) => {
+  const adjustedPosition = { ...position }
+
+  while (
+    folders.some(
+      (folder) => folder.id !== id && isColliding(folder.position, adjustedPosition)
+    )
+  ) {
+    adjustedPosition.x += FOLDER_SIZE
+    if (adjustedPosition.x > window.innerWidth - FOLDER_SIZE) {
+      adjustedPosition.x = 0
+      adjustedPosition.y += FOLDER_SIZE
+    }
+  }
+
+  return adjustedPosition
+}
 
 const Desktop = () => {
   const { folders, updateFolderPosition } = useFolderStore()
@@ -42,9 +77,15 @@ const Desktop = () => {
         <Draggable
           key={folder.id}
           position={folder.position}
-          onStop={(_, data) =>
-            updateFolderPosition(folder.id, { x: data.x, y: data.y })
-          }
+          onStop={(_, data) => {
+            const snappedPosition = snapToGrid(data.x, data.y)
+            const resolvedPosition = resolveCollision(
+              folders,
+              folder.id,
+              snappedPosition
+            )
+            updateFolderPosition(folder.id, resolvedPosition)
+          }}
         >
           <AppIcon onDoubleClick={() => openWindow(folder.title, folder.content)}>
             <FolderIcon fontSize='large' />
