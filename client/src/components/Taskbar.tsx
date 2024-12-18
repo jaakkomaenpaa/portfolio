@@ -52,7 +52,7 @@ const Taskbar = () => {
       <Toolbar>
         {openMenu && (
           <div ref={menuRef}>
-            <StartMenu closeMenu={toggleMenu} />
+            <StartMenu />
           </div>
         )}
         <Box sx={{ display: 'flex', alignItems: 'center' }}>

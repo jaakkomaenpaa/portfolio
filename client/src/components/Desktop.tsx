@@ -1,15 +1,14 @@
 import { Box, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-import FolderIcon from '@mui/icons-material/Folder'
 import Draggable from 'react-draggable'
 
 import DraggableWindow from './DraggableWindow'
 import { useWindowStore } from '../stores/WindowStore'
-import { useFolderStore } from '../stores/FolderStore'
-import { Folder, Position } from '../types'
+import { Position, App } from '../types'
 import config from '../config'
 import { createRef, RefObject, useRef } from 'react'
-import { getFolderContent } from '../folders'
+import { useDesktopStore } from '../stores/DesktopStore'
+import { ENTITY_ICONS, PROGRAM_CONTENTS } from '../programs'
 
 const { GRID_SIZE_X, GRID_SIZE_Y, FOLDER_SIZE } = config
 
@@ -50,12 +49,14 @@ const isColliding = (pos1: Position, pos2: Position) => {
   )
 }
 
-const resolveCollision = (folders: Folder[], id: number, position: Position) => {
+const resolveCollision = (desktopApps: App[], id: number, position: Position) => {
   const adjustedPosition = { ...position }
 
   while (
-    folders.some(
-      (folder) => folder.id !== id && isColliding(folder.position, adjustedPosition)
+    desktopApps.some(
+      (app: App) =>
+        // Position should always exist at this point
+        app.id !== id && isColliding(app.position!, adjustedPosition)
     )
   ) {
     adjustedPosition.x += FOLDER_SIZE
@@ -69,7 +70,7 @@ const resolveCollision = (folders: Folder[], id: number, position: Position) => 
 }
 
 const Desktop = () => {
-  const { folders, updateFolderPosition } = useFolderStore()
+  const { desktopApps, updateAppPosition } = useDesktopStore()
   const { windows, actions } = useWindowStore()
   const { openWindow, closeWindow } = actions
 
@@ -77,29 +78,29 @@ const Desktop = () => {
 
   return (
     <StyledDesktop>
-      {folders.map((folder: Folder) => (
+      {desktopApps.map((app: App) => (
         <Draggable
-          key={folder.id}
-          nodeRef={(draggableRefs.current[folder.id] = createRef())}
-          position={folder.position}
+          key={app.id}
+          nodeRef={(draggableRefs.current[app.id] = createRef())}
+          position={app.position}
           onStop={(_, data) => {
             const snappedPosition = snapToGrid(data.x, data.y)
             const resolvedPosition = resolveCollision(
-              folders,
-              folder.id,
+              desktopApps,
+              app.id,
               snappedPosition
             )
-            updateFolderPosition(folder.id, resolvedPosition)
+            updateAppPosition(app.id, resolvedPosition)
           }}
         >
-          <div ref={draggableRefs.current[folder.id]}>
+          <div ref={draggableRefs.current[app.id]}>
             <AppIcon
               onDoubleClick={() =>
-                openWindow(folder.title, getFolderContent(folder.title))
+                openWindow(app.title, PROGRAM_CONTENTS[app.content])
               }
             >
-              <FolderIcon fontSize='large' />
-              <Typography variant='body2'>{folder.title}</Typography>
+              {ENTITY_ICONS[app.icon]({ fontSize: 'large' })}
+              <Typography variant='body2'>{app.title}</Typography>
             </AppIcon>
           </div>
         </Draggable>
