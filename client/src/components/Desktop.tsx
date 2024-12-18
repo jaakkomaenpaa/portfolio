@@ -1,10 +1,12 @@
 import { Box, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import FolderIcon from '@mui/icons-material/Folder'
+import Draggable from 'react-draggable'
 
-import DEFAULT_FOLDERS from '../folders'
 import DraggableWindow from './DraggableWindow'
 import { useWindowStore } from '../stores/WindowStore'
+import { useFolderStore } from '../stores/FolderStore'
+import { Folder } from '../types'
 
 const StyledDesktop = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -30,16 +32,25 @@ const AppIcon = styled(Box)({
 })
 
 const Desktop = () => {
+  const { folders, updateFolderPosition } = useFolderStore()
   const { windows, actions } = useWindowStore()
   const { openWindow, closeWindow } = actions
 
   return (
     <StyledDesktop>
-      {DEFAULT_FOLDERS.map((folder, index) => (
-        <AppIcon key={index} onClick={() => openWindow(folder.title, folder.content)}>
-          <FolderIcon fontSize='large' />
-          <Typography variant='body2'>{folder.title}</Typography>
-        </AppIcon>
+      {folders.map((folder: Folder) => (
+        <Draggable
+          key={folder.id}
+          position={folder.position}
+          onStop={(_, data) =>
+            updateFolderPosition(folder.id, { x: data.x, y: data.y })
+          }
+        >
+          <AppIcon onDoubleClick={() => openWindow(folder.title, folder.content)}>
+            <FolderIcon fontSize='large' />
+            <Typography variant='body2'>{folder.title}</Typography>
+          </AppIcon>
+        </Draggable>
       ))}
 
       {windows.map((window) => (

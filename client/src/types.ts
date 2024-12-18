@@ -6,3 +6,15 @@ export interface Window {
   content: ReactNode
   dragRef: RefObject<HTMLDivElement>
 }
+
+export interface Folder {
+  id: number
+  title: string
+  content: ReactNode
+  position: Position
+}
+
+export interface Position {
+  x: number
+  y: number
+}

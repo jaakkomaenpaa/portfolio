@@ -64,19 +64,3 @@ const Education = () => {
 }
 
 export default Education
-
-/*
-<Typography sx={{ mb: 3 }}>
-        Studying information and knowledge management in Tampere University. Bachelor
-        of Science (Technology).
-      </Typography>
-      <Typography sx={{ mb: 1, color: 'text.secondary' }}>Bachelor's</Typography>
-      <Typography sx={{ mb: 3 }}>
-        Graduated in May 2024. Focus on software engineering.
-      </Typography>
-      <Typography sx={{ mb: 1, color: 'text.secondary' }}>Master's</Typography>
-      <Typography sx={{ mb: 3 }}>
-        On track to graduating in May 2026. Information systems management as major,
-        advanced studies in software engineering as minor.
-      </Typography>
-*/
