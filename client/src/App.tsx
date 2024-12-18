@@ -1,7 +1,7 @@
 import { Box, Button, CssBaseline, ThemeProvider } from '@mui/material'
 import Taskbar from './components/Taskbar'
 import Desktop from './components/Desktop'
-import { useThemeStore } from './stores/useThemeStore'
+import { useThemeStore } from './stores/ThemeStore'
 import { darkTheme, lightTheme } from './theme'
 
 const App = () => {

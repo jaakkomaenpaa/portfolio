@@ -16,12 +16,13 @@ const Taskbar = () => {
   return (
     <AppBar
       position='fixed'
+      elevation={0}
       sx={{
         top: 'auto',
         bottom: 0,
         backgroundColor: 'background.paper',
         color: 'text.primary',
-        display: 'flex',
+        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.5)',
       }}
     >
       <Toolbar>

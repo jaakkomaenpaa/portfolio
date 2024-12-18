@@ -30,8 +30,8 @@ export const darkTheme: Theme = createTheme({
       main: '#f48fb1', // Light pink
     },
     background: {
-      default: '#1e1e1e',
-      paper: '#121212',
+      default: '#2a2a2a',
+      paper: '#1e1e1e',
     },
     text: {
       primary: '#ffffff',

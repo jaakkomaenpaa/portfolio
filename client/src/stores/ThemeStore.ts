@@ -1,13 +1,13 @@
 import { create } from 'zustand'
 
-interface ThemeState {
+interface ThemeStore {
   isDarkMode: boolean
   toggleTheme: () => void
 }
 
 const savedTheme = localStorage.getItem('isDarkMode') === 'true'
 
-export const useThemeStore = create<ThemeState>((set) => ({
+export const useThemeStore = create<ThemeStore>((set) => ({
   isDarkMode: savedTheme || false,
   toggleTheme: () =>
     set((state) => {
