@@ -1,14 +1,17 @@
 import { Box, IconButton, Typography } from '@mui/material'
 import { styled } from '@mui/system'
-import { ReactNode, useState } from 'react'
+import { createRef, ReactNode, RefObject, useState } from 'react'
 import FolderIcon from '@mui/icons-material/Folder'
 import CloseIcon from '@mui/icons-material/Close'
 import Draggable from 'react-draggable'
+
+import DEFAULT_FOLDERS from '../folders'
 
 interface WindowProps {
   id: number
   title: string
   content: ReactNode
+  dragRef: RefObject<HTMLDivElement>
 }
 
 const StyledDesktop = styled(Box)(({ theme }) => ({
@@ -47,10 +50,13 @@ const AppWindow = styled(Box)(({ theme }) => ({
 
 const Desktop = () => {
   const [windows, setWindows] = useState<WindowProps[]>([])
-  const [nextId, setNextId] = useState(1)
+  const [nextId, setNextId] = useState<number>(1)
 
   const openWindow = (title: string, content: ReactNode) => {
-    setWindows((prevWindows) => [...prevWindows, { id: nextId, title, content }])
+    setWindows((prevWindows) => [
+      ...prevWindows,
+      { id: nextId, title, content, dragRef: createRef<HTMLDivElement>() },
+    ])
     setNextId(nextId + 1)
   }
 
@@ -60,48 +66,39 @@ const Desktop = () => {
 
   return (
     <StyledDesktop>
-      <AppIcon
-        onClick={() =>
-          openWindow('My Portfolio', <div>This is my portfolio content!</div>)
-        }
-      >
-        <FolderIcon fontSize='large' />
-        <Typography variant='body2'>Portfolio</Typography>
-      </AppIcon>
-
-      <AppIcon
-        onClick={() =>
-          openWindow('About me', <div>This is the About Me section!</div>)
-        }
-      >
-        <FolderIcon fontSize='large' />
-        <Typography variant='body2'>About Me</Typography>
-      </AppIcon>
+      {DEFAULT_FOLDERS.map((folder, index) => (
+        <AppIcon key={index} onClick={() => openWindow(folder.title, folder.content)}>
+          <FolderIcon fontSize='large' />
+          <Typography variant='body2'>{folder.title}</Typography>
+        </AppIcon>
+      ))}
 
       {windows.map((window) => (
-        <Draggable key={window.id}>
-          <AppWindow>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                backgroundColor: 'primary.main',
-                color: 'text.primary',
-                padding: '8px',
-              }}
-            >
-              <Typography variant='subtitle1'>{window.title}</Typography>
-              <IconButton
-                size='small'
-                color='inherit'
-                onClick={() => closeWindow(window.id)}
+        <Draggable nodeRef={window.dragRef} key={window.id}>
+          <div ref={window.dragRef}>
+            <AppWindow>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  backgroundColor: 'primary.main',
+                  color: 'text.primary',
+                  padding: '8px',
+                }}
               >
-                <CloseIcon />
-              </IconButton>
-            </Box>
-            <Box sx={{ padding: '16px' }}>{window.content}</Box>
-          </AppWindow>
+                <Typography variant='subtitle1'>{window.title}</Typography>
+                <IconButton
+                  size='small'
+                  color='inherit'
+                  onClick={() => closeWindow(window.id)}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </Box>
+              <Box sx={{ padding: '16px' }}>{window.content}</Box>
+            </AppWindow>
+          </div>
         </Draggable>
       ))}
     </StyledDesktop>
