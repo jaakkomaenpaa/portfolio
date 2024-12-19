@@ -4,12 +4,13 @@ import { DEFAULT_PROGRAMS } from '../programs'
 
 interface DesktopStore {
   desktopApps: App[]
+  nextId: number
   updateAppPosition: (id: number, position: Position) => void
   addAppToDesktop: (app: App) => void
   removeAppFromDesktop: (id: number) => void
 }
 
-const getSavedEntities = (): App[] => {
+const getSavedDesktopApps = (): App[] => {
   const desktopApps = localStorage.getItem('apps')
 
   if (desktopApps) {
@@ -20,7 +21,8 @@ const getSavedEntities = (): App[] => {
 }
 
 export const useDesktopStore = create<DesktopStore>((set, get) => ({
-  desktopApps: getSavedEntities(),
+  desktopApps: getSavedDesktopApps(),
+  nextId: DEFAULT_PROGRAMS.length + 1,
 
   updateAppPosition: (id: number, position: Position) =>
     set((state) => {
@@ -33,14 +35,16 @@ export const useDesktopStore = create<DesktopStore>((set, get) => ({
     }),
 
   addAppToDesktop: (app: App) => {
-    const { desktopApps } = get()
-    // TODO: Add app position
-
-    const updatedApps = [...desktopApps, app]
+    const { desktopApps, nextId } = get()
+    const updatedApps = [
+      ...desktopApps,
+      { ...app, id: nextId, position: app.position || { x: 0, y: 0 } },
+    ]
     localStorage.setItem('apps', JSON.stringify(updatedApps))
 
     set({
       desktopApps: updatedApps,
+      nextId: nextId + 1,
     })
   },
 

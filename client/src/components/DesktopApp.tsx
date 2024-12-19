@@ -8,7 +8,7 @@ import { PROGRAM_CONTENTS, PROGRAM_ICONS } from '../programs'
 import { useWindowStore } from '../stores/WindowStore'
 import config from '../config'
 
-const { GRID_SIZE_X, GRID_SIZE_Y, FOLDER_SIZE } = config
+const { GRID_SIZE_X, GRID_SIZE_Y, FOLDER_SIZE, BOUNDS } = config
 
 const AppIcon = styled(Box)({
   width: FOLDER_SIZE,
@@ -63,6 +63,7 @@ interface DesktopAppProps {
 const DesktopApp = ({ app }: DesktopAppProps) => {
   const { desktopApps, updateAppPosition, removeAppFromDesktop } = useDesktopStore()
   const { openWindow } = useWindowStore()
+
   const appRef = useRef<HTMLDivElement>(null)
   const [menuAnchor, setMenuAnchor] = useState<{
     mouseX: number
@@ -87,6 +88,7 @@ const DesktopApp = ({ app }: DesktopAppProps) => {
         key={app.id}
         nodeRef={appRef}
         position={app.position}
+        bounds={BOUNDS}
         onStop={(_, data) => {
           const snappedPosition = snapToGrid(data.x, data.y)
           const resolvedPosition = resolveCollision(

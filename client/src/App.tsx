@@ -1,8 +1,14 @@
-import { Box, Button, CssBaseline, ThemeProvider } from '@mui/material'
+import { Box, Button, CssBaseline, styled, ThemeProvider } from '@mui/material'
 import Taskbar from './components/Taskbar'
 import Desktop from './components/Desktop'
 import { useThemeStore } from './stores/ThemeStore'
 import { darkTheme, lightTheme } from './theme'
+
+const AppContainer = styled(Box)(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100vh',
+}))
 
 const App = () => {
   const { isDarkMode, toggleTheme } = useThemeStore()
@@ -10,28 +16,22 @@ const App = () => {
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <CssBaseline />
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '100vh',
-          backgroundColor: 'background.default',
-          color: 'text.primary',
-        }}
-      >
-        <Box sx={{ flexGrow: 1 }}>
-          <Desktop />
-        </Box>
+      <AppContainer>
+        <Desktop />
+        <Taskbar />
 
         <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
           <Button variant='contained' onClick={toggleTheme}>
             Toggle Theme
           </Button>
         </Box>
-
-        <Taskbar />
-      </Box>
+      </AppContainer>
     </ThemeProvider>
   )
 }
 export default App
+
+/* 
+
+
+*/

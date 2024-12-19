@@ -1,10 +1,13 @@
-import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material'
+import { Box, IconButton, Typography } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import MenuIcon from '@mui/icons-material/Menu'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import StartMenu from './StartMenu'
+import config from '../config'
+
+const { TASKBAR_HEIGHT } = config
 
 const Taskbar = () => {
   const [currentTime, setCurrentTime] = useState<Date>(new Date())
@@ -38,53 +41,50 @@ const Taskbar = () => {
   }, [])
 
   return (
-    <AppBar
-      position='fixed'
-      elevation={0}
+    <Box
       sx={{
-        top: 'auto',
-        bottom: 0,
         backgroundColor: 'background.paper',
         color: 'text.primary',
         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.5)',
+        display: 'flex',
+        alignItems: 'center',
+        paddingX: '12px',
+        height: TASKBAR_HEIGHT,
+        position: 'relative',
       }}
     >
-      <Toolbar>
-        {openMenu && (
-          <div ref={menuRef}>
-            <StartMenu />
-          </div>
-        )}
+      {openMenu && (
+        <div ref={menuRef}>
+          <StartMenu />
+        </div>
+      )}
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <IconButton color='inherit' size='large' onClick={toggleMenu}>
+          <MenuIcon sx={{ fontSize: 32 }} />
+        </IconButton>
+      </Box>
+
+      <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', gap: 2 }}>
+        <Typography variant='body2'>App 1</Typography>
+        <Typography variant='body2'>App 2</Typography>
+        <Typography variant='body2'>App 3</Typography>
+      </Box>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        <IconButton color='inherit' size='small'>
+          <NotificationsIcon />
+        </IconButton>
+
+        <IconButton color='inherit' size='small'>
+          <BatteryChargingFullIcon />
+        </IconButton>
+
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton color='inherit' size='large' onClick={toggleMenu}>
-            <MenuIcon sx={{ fontSize: 32 }} />
-          </IconButton>
+          <AccessTimeIcon sx={{ mr: 0.5 }} />
+          <Typography variant='body2'>{currentTime.toLocaleTimeString()}</Typography>
         </Box>
-
-        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', gap: 2 }}>
-          <Typography variant='body2'>App 1</Typography>
-          <Typography variant='body2'>App 2</Typography>
-          <Typography variant='body2'>App 3</Typography>
-        </Box>
-
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <IconButton color='inherit' size='small'>
-            <NotificationsIcon />
-          </IconButton>
-
-          <IconButton color='inherit' size='small'>
-            <BatteryChargingFullIcon />
-          </IconButton>
-
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <AccessTimeIcon sx={{ mr: 0.5 }} />
-            <Typography variant='body2'>
-              {currentTime.toLocaleTimeString()}
-            </Typography>
-          </Box>
-        </Box>
-      </Toolbar>
-    </AppBar>
+      </Box>
+    </Box>
   )
 }
 

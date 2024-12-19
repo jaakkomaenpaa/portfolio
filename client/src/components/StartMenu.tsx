@@ -38,6 +38,10 @@ const StartMenu = () => {
           <ListItemButton
             key={app.id}
             onClick={() => handleEntityClick(app)}
+            draggable
+            onDragStart={(e) =>
+              e.dataTransfer.setData('application/json', JSON.stringify(app))
+            }
             sx={{ display: 'flex', gap: 1 }}
           >
             {PROGRAM_ICONS[app.iconKey]({ fontSize: 'small' })} {app.title}
