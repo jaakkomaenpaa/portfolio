@@ -48,7 +48,7 @@ const Calculator = () => {
         fullWidth
         value={display}
         sx={{ mb: 2 }}
-        InputProps={{ readOnly: true }}
+        slotProps={{ input: { readOnly: true } }}
       />
       <Grid2 container spacing={1}>
         {buttons.map((btn) => (
