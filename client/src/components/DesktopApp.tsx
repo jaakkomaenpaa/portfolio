@@ -99,9 +99,11 @@ const DesktopApp = ({ app }: DesktopAppProps) => {
       >
         <div ref={appRef} onContextMenu={handleContextMenu}>
           <AppIcon
-            onDoubleClick={() => openWindow(app.title, PROGRAM_CONTENTS[app.content])}
+            onDoubleClick={() =>
+              openWindow(app.title, PROGRAM_CONTENTS[app.contentKey])
+            }
           >
-            {PROGRAM_ICONS[app.icon]({ fontSize: 'large' })}
+            {PROGRAM_ICONS[app.iconKey]({ fontSize: 'large' })}
             <Typography variant='body2'>{app.title}</Typography>
           </AppIcon>
         </div>
@@ -116,7 +118,10 @@ const DesktopApp = ({ app }: DesktopAppProps) => {
         }
       >
         <MenuItem
-          onClick={() => openWindow(app.title, PROGRAM_CONTENTS[app.content])}
+          onClick={() => {
+            openWindow(app.title, PROGRAM_CONTENTS[app.contentKey])
+            handleCloseMenu()
+          }}
         >
           Open
         </MenuItem>
@@ -126,7 +131,7 @@ const DesktopApp = ({ app }: DesktopAppProps) => {
             handleCloseMenu()
           }}
         >
-          Remove from Desktop
+          Remove
         </MenuItem>
       </Menu>
     </>

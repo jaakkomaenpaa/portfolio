@@ -15,8 +15,8 @@ export interface App {
   id: number
   title: string
   position?: Position
-  icon: AppIcon
-  content: AppContent
+  iconKey: AppIcon
+  contentKey: AppContent
 }
 
 export enum AppIcon {

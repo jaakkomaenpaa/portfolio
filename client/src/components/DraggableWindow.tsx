@@ -23,7 +23,7 @@ const AppWindow = styled(Box)(({ theme }) => ({
 const DraggableWindow = ({ window, closeWindow }: DraggableWindowProps) => {
   const nodeRef = useRef(null)
 
-  // nodeRef needed in both Draggable and div to address deprecated findDOMNode
+  // ref needed in both Draggable and div to address deprecated findDOMNode
   return (
     <Draggable handle='.draggable-header' cancel='.non-draggable' nodeRef={nodeRef}>
       <div ref={nodeRef}>

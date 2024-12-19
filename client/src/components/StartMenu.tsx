@@ -2,8 +2,7 @@ import { Box, List, ListItemButton, Paper } from '@mui/material'
 import { useWindowStore } from '../stores/WindowStore'
 import { App } from '../types'
 import { useState } from 'react'
-import { useDesktopStore } from '../stores/DesktopStore'
-import { PROGRAM_CONTENTS } from '../programs'
+import { APPS, FOLDERS, PROGRAM_CONTENTS, PROGRAM_ICONS } from '../programs'
 
 enum SubMenu {
   Apps,
@@ -12,7 +11,6 @@ enum SubMenu {
 }
 
 const StartMenu = () => {
-  const { desktopApps } = useDesktopStore()
   const { openWindow } = useWindowStore()
   const [submenu, setSubmenu] = useState<SubMenu | null>(null)
 
@@ -30,7 +28,23 @@ const StartMenu = () => {
   }
 
   const handleEntityClick = (entity: App) => {
-    openWindow(entity.title, PROGRAM_CONTENTS[entity.content])
+    openWindow(entity.title, PROGRAM_CONTENTS[entity.contentKey])
+  }
+
+  const renderApps = (apps: App[]) => {
+    return (
+      <List>
+        {apps.map((app: App) => (
+          <ListItemButton
+            key={app.id}
+            onClick={() => handleEntityClick(app)}
+            sx={{ display: 'flex', gap: 1 }}
+          >
+            {PROGRAM_ICONS[app.iconKey]({ fontSize: 'small' })} {app.title}
+          </ListItemButton>
+        ))}
+      </List>
+    )
   }
 
   return (
@@ -68,22 +82,13 @@ const StartMenu = () => {
 
         {submenu === SubMenu.Apps && (
           <Paper elevation={8} sx={{ position: 'absolute', left: '100%', top: 0 }}>
-            <List>
-              <ListItemButton onClick={handleCloseSubmenu}>App 1</ListItemButton>
-              <ListItemButton onClick={handleCloseSubmenu}>App 2</ListItemButton>
-            </List>
+            {renderApps(APPS)}
           </Paper>
         )}
 
         {submenu === SubMenu.Folders && (
           <Paper elevation={8} sx={{ position: 'absolute', left: '100%', top: 0 }}>
-            <List>
-              {desktopApps.map((app: App) => (
-                <ListItemButton key={app.id} onClick={() => handleEntityClick(app)}>
-                  {app.title}
-                </ListItemButton>
-              ))}
-            </List>
+            {renderApps(FOLDERS)}
           </Paper>
         )}
 

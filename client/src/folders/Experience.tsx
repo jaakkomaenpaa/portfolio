@@ -23,8 +23,7 @@ const StartupWindow = () => {
 }
 
 const Experience = () => {
-  const { actions } = useWindowStore()
-  const { openWindow } = actions
+  const { openWindow } = useWindowStore()
 
   return (
     <Box>

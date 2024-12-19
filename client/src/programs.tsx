@@ -26,47 +26,52 @@ export const PROGRAM_CONTENTS = {
   [AppContent.Calculator]: <Calculator />,
 }
 
-export const DEFAULT_PROGRAMS: App[] = [
+export const APPS: App[] = [
+  {
+    id: 6,
+    title: 'Calculator',
+    contentKey: AppContent.Calculator,
+    iconKey: AppIcon.Calculator,
+    position: { x: GRID_SIZE_X * 5, y: 0 },
+  },
+]
+
+export const FOLDERS: App[] = [
   {
     id: 1,
     title: 'Portfolio',
-    icon: AppIcon.Folder,
-    content: AppContent.Portfolio,
+    contentKey: AppContent.Portfolio,
+    iconKey: AppIcon.Folder,
     position: { x: 0, y: 0 },
   },
   {
     id: 2,
     title: 'About me',
-    icon: AppIcon.Folder,
-    content: AppContent.AboutMe,
+    iconKey: AppIcon.Folder,
+    contentKey: AppContent.AboutMe,
     position: { x: GRID_SIZE_X, y: 0 },
   },
   {
     id: 3,
     title: 'Skills',
-    icon: AppIcon.Folder,
-    content: AppContent.Skills,
+    iconKey: AppIcon.Folder,
+    contentKey: AppContent.Skills,
     position: { x: GRID_SIZE_X * 2, y: 0 },
   },
   {
     id: 4,
     title: 'Education',
-    icon: AppIcon.Folder,
-    content: AppContent.Education,
+    iconKey: AppIcon.Folder,
+    contentKey: AppContent.Education,
     position: { x: GRID_SIZE_X * 3, y: 0 },
   },
   {
     id: 5,
     title: 'Experience',
-    icon: AppIcon.Folder,
-    content: AppContent.Experience,
+    iconKey: AppIcon.Folder,
+    contentKey: AppContent.Experience,
     position: { x: GRID_SIZE_X * 4, y: 0 },
   },
-  {
-    id: 6,
-    title: 'Calculator',
-    content: AppContent.Calculator,
-    icon: AppIcon.Calculator,
-    position: { x: GRID_SIZE_X * 5, y: 0 },
-  },
 ]
+
+export const DEFAULT_PROGRAMS: App[] = [...APPS, ...FOLDERS]
