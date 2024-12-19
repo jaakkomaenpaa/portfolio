@@ -67,5 +67,6 @@ export const DEFAULT_PROGRAMS: App[] = [
     title: 'Calculator',
     content: AppContent.Calculator,
     icon: AppIcon.Calculator,
+    position: { x: GRID_SIZE_X * 5, y: 0 },
   },
 ]
