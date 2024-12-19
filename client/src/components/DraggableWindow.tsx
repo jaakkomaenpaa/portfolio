@@ -2,6 +2,7 @@ import { Box, IconButton, styled, Typography } from '@mui/material'
 import Draggable from 'react-draggable'
 import CloseIcon from '@mui/icons-material/Close'
 import { Window } from '../types'
+import { useRef } from 'react'
 
 interface DraggableWindowProps {
   window: Window
@@ -20,11 +21,15 @@ const AppWindow = styled(Box)(({ theme }) => ({
 }))
 
 const DraggableWindow = ({ window, closeWindow }: DraggableWindowProps) => {
+  const nodeRef = useRef(null)
+
+  // nodeRef needed in both Draggable and div to address deprecated findDOMNode
   return (
-    <Draggable nodeRef={window.dragRef}>
-      <div ref={window.dragRef}>
+    <Draggable handle='.draggable-header' cancel='.non-draggable' nodeRef={nodeRef}>
+      <div ref={nodeRef}>
         <AppWindow>
           <Box
+            className='draggable-header'
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
@@ -43,7 +48,9 @@ const DraggableWindow = ({ window, closeWindow }: DraggableWindowProps) => {
               <CloseIcon />
             </IconButton>
           </Box>
-          <Box sx={{ padding: '16px' }}>{window.content}</Box>
+          <Box className='non-draggable' sx={{ padding: '16px' }}>
+            {window.content}
+          </Box>
         </AppWindow>
       </div>
     </Draggable>

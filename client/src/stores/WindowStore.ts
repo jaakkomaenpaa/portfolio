@@ -1,4 +1,4 @@
-import { createRef, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { create } from 'zustand'
 import { Window } from '../types'
 
@@ -21,7 +21,6 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
         id: nextId,
         title,
         content,
-        dragRef: createRef<HTMLDivElement>(),
       }
 
       set({
