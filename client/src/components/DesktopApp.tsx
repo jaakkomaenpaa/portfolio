@@ -1,10 +1,10 @@
 import Draggable from 'react-draggable'
-import { useRef } from 'react'
-import { Box, styled, Typography } from '@mui/material'
+import { useRef, useState } from 'react'
+import { Box, Menu, MenuItem, styled, Typography } from '@mui/material'
 
 import { App, Position } from '../types'
 import { useDesktopStore } from '../stores/DesktopStore'
-import { ENTITY_ICONS, PROGRAM_CONTENTS } from '../programs'
+import { PROGRAM_CONTENTS, PROGRAM_ICONS } from '../programs'
 import { useWindowStore } from '../stores/WindowStore'
 import config from '../config'
 
@@ -61,35 +61,75 @@ interface DesktopAppProps {
 }
 
 const DesktopApp = ({ app }: DesktopAppProps) => {
-  const { desktopApps, updateAppPosition } = useDesktopStore()
-  const { actions } = useWindowStore()
-  const { openWindow } = actions
-  const appRef = useRef(null)
+  const { desktopApps, updateAppPosition, removeAppFromDesktop } = useDesktopStore()
+  const { openWindow } = useWindowStore()
+  const appRef = useRef<HTMLDivElement>(null)
+  const [menuAnchor, setMenuAnchor] = useState<{
+    mouseX: number
+    mouseY: number
+  } | null>(null)
+
+  const handleContextMenu = (event: React.MouseEvent) => {
+    event.preventDefault()
+    setMenuAnchor({
+      mouseX: event.clientX + 2,
+      mouseY: event.clientY - 6,
+    })
+  }
+
+  const handleCloseMenu = () => {
+    setMenuAnchor(null)
+  }
 
   return (
-    <Draggable
-      key={app.id}
-      nodeRef={appRef}
-      position={app.position}
-      onStop={(_, data) => {
-        const snappedPosition = snapToGrid(data.x, data.y)
-        const resolvedPosition = resolveCollision(
-          desktopApps,
-          app.id,
-          snappedPosition
-        )
-        updateAppPosition(app.id, resolvedPosition)
-      }}
-    >
-      <div ref={appRef}>
-        <AppIcon
-          onDoubleClick={() => openWindow(app.title, PROGRAM_CONTENTS[app.content])}
+    <>
+      <Draggable
+        key={app.id}
+        nodeRef={appRef}
+        position={app.position}
+        onStop={(_, data) => {
+          const snappedPosition = snapToGrid(data.x, data.y)
+          const resolvedPosition = resolveCollision(
+            desktopApps,
+            app.id,
+            snappedPosition
+          )
+          updateAppPosition(app.id, resolvedPosition)
+        }}
+      >
+        <div ref={appRef} onContextMenu={handleContextMenu}>
+          <AppIcon
+            onDoubleClick={() => openWindow(app.title, PROGRAM_CONTENTS[app.content])}
+          >
+            {PROGRAM_ICONS[app.icon]({ fontSize: 'large' })}
+            <Typography variant='body2'>{app.title}</Typography>
+          </AppIcon>
+        </div>
+      </Draggable>
+
+      <Menu
+        open={!!menuAnchor}
+        onClose={handleCloseMenu}
+        anchorReference='anchorPosition'
+        anchorPosition={
+          menuAnchor ? { top: menuAnchor.mouseY, left: menuAnchor.mouseX } : undefined
+        }
+      >
+        <MenuItem
+          onClick={() => openWindow(app.title, PROGRAM_CONTENTS[app.content])}
         >
-          {ENTITY_ICONS[app.icon]({ fontSize: 'large' })}
-          <Typography variant='body2'>{app.title}</Typography>
-        </AppIcon>
-      </div>
-    </Draggable>
+          Open
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            removeAppFromDesktop(app.id)
+            handleCloseMenu()
+          }}
+        >
+          Remove from Desktop
+        </MenuItem>
+      </Menu>
+    </>
   )
 }
 

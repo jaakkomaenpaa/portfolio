@@ -12,7 +12,7 @@ import Calculator from './apps/Calculator'
 
 const { GRID_SIZE_X } = config
 
-export const ENTITY_ICONS = {
+export const PROGRAM_ICONS = {
   [AppIcon.Folder]: (props: any) => <FolderIcon {...props} />,
   [AppIcon.Calculator]: (props: any) => <CalculateIcon {...props} />,
 }

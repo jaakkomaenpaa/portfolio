@@ -13,8 +13,7 @@ enum SubMenu {
 
 const StartMenu = () => {
   const { desktopApps } = useDesktopStore()
-  const { actions } = useWindowStore()
-  const { openWindow } = actions
+  const { openWindow } = useWindowStore()
   const [submenu, setSubmenu] = useState<SubMenu | null>(null)
 
   const handleOpenSubmenu = (menuName: SubMenu) => {

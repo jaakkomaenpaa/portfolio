@@ -20,8 +20,7 @@ const StyledDesktop = styled(Box)(({ theme }) => ({
 
 const Desktop = () => {
   const { desktopApps } = useDesktopStore()
-  const { windows, actions } = useWindowStore()
-  const { closeWindow } = actions
+  const { windows, closeWindow } = useWindowStore()
 
   return (
     <StyledDesktop>
