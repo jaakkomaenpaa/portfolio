@@ -17,6 +17,7 @@ export enum AppIcon {
   Calculator,
   GitHub,
   LinkedIn,
+  
 }
 
 export interface FileSystemNode {

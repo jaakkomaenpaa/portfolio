@@ -4,8 +4,11 @@ import MenuIcon from '@mui/icons-material/Menu'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
+
 import StartMenu from './StartMenu'
 import config from '../config'
+import { FILE_SYSTEM } from '../programs'
+import TaskbarApp from './TaskbarApp'
 
 const { TASKBAR_HEIGHT } = config
 
@@ -40,6 +43,9 @@ const Taskbar = () => {
     }
   }, [])
 
+  const fileExplorer = FILE_SYSTEM[0]
+  console.log('fileExplorer', fileExplorer)
+
   return (
     <Box
       sx={{
@@ -64,10 +70,15 @@ const Taskbar = () => {
         </IconButton>
       </Box>
 
-      <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', gap: 2 }}>
-        <Typography variant='body2'>App 1</Typography>
-        <Typography variant='body2'>App 2</Typography>
-        <Typography variant='body2'>App 3</Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexGrow: 1,
+        }}
+      >
+        <TaskbarApp app={fileExplorer} />
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>

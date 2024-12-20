@@ -11,7 +11,7 @@ interface DesktopStore {
 }
 
 const getSavedDesktopItems = (): DesktopItem[] => {
-  const desktopItems = localStorage.getItem('items')
+  const desktopItems = localStorage.getItem('desktop')
 
   if (desktopItems) {
     return JSON.parse(desktopItems)
@@ -30,7 +30,7 @@ export const useDesktopStore = create<DesktopStore>((set, get) => ({
         entity.id === id ? { ...entity, position } : entity
       )
 
-      localStorage.setItem('items', JSON.stringify(updatedItems))
+      localStorage.setItem('desktop', JSON.stringify(updatedItems))
       return { desktopItems: updatedItems }
     }),
 

@@ -62,9 +62,10 @@ const resolveCollision = (
 
 interface DesktopAppProps {
   app: DesktopItem
+  draggable?: boolean
 }
 
-const DesktopApp = ({ app }: DesktopAppProps) => {
+const DesktopApp = ({ app, draggable }: DesktopAppProps) => {
   const { desktopItems, updateItemPosition, removeItemFromDesktop } =
     useDesktopStore()
   const { openWindow } = useWindowStore()
@@ -98,6 +99,7 @@ const DesktopApp = ({ app }: DesktopAppProps) => {
         nodeRef={appRef}
         position={app.position}
         bounds={BOUNDS}
+        disabled={draggable}
         onStop={(_, data) => {
           const snappedPosition = snapToGrid(data.x, data.y)
           const resolvedPosition = resolveCollision(

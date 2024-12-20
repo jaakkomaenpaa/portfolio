@@ -102,6 +102,30 @@ export const FILE_SYSTEM: FileSystemNode[] = [
   },
 ]
 
+export const PROGRAMS = {
+  FILE_EXPLORER: FILE_SYSTEM[0],
+}
+
+export const DESKTOP_ITEMS = [
+  // Root
+  {
+    ...PROGRAMS.FILE_EXPLORER,
+    title: 'Explorer',
+    position: { x: 0, y: 0 },
+  },
+  // Info folder
+  ...FILE_SYSTEM[0].children![1].children!.map(
+    (node: FileSystemNode, index: number) => ({
+      ...node,
+      position: { x: GRID_SIZE_X * (index + 1), y: 0 },
+    })
+  ),
+]
+
+export const TASKBAR_ITEMS = [
+  PROGRAMS.FILE_EXPLORER
+]
+
 export const PROGRAM_ICONS = {
   [AppIcon.FolderColored]: (props: any) => <FolderIcon color='folder' {...props} />,
   [AppIcon.Folder]: (props: any) => <FolderIcon {...props} />,
@@ -140,21 +164,3 @@ export const runProgram = (
     }
   }
 }
-
-console.log(FILE_SYSTEM[0].children)
-
-export const DESKTOP_ITEMS = [
-  // Root
-  {
-    ...FILE_SYSTEM[0],
-    title: 'Explorer',
-    position: { x: 0, y: 0 },
-  },
-  // Info folder
-  ...FILE_SYSTEM[0].children![1].children!.map(
-    (node: FileSystemNode, index: number) => ({
-      ...node,
-      position: { x: GRID_SIZE_X * (index + 1), y: 0 },
-    })
-  ),
-]
