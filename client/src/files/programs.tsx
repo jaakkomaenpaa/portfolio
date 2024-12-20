@@ -13,7 +13,7 @@ export const DESKTOP_ITEMS = [
   // Root
   {
     ...PROGRAMS.fileExplorer,
-    title: 'Explorer',
+    title: 'explorer',
     position: { x: 0, y: 0 },
   },
   // Info folder

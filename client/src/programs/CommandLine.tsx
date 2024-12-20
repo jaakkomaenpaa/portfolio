@@ -1,7 +1,16 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { PROGRAMS } from '../files/programs'
 import { FileSystemNode, ProgramType } from '../types'
 import { Box, TextField, Typography } from '@mui/material'
+import { runProgram } from '../files/utils'
+import { useWindowStore } from '../stores/WindowStore'
 
 const CommandLine = () => {
   const root = PROGRAMS.fileExplorer
@@ -12,6 +21,8 @@ const CommandLine = () => {
   const [commandHistory, setCommandHistory] = useState<string[]>([])
   const [_, setHistoryIndex] = useState<number | null>(null)
 
+  const { openWindow } = useWindowStore()
+
   const outputEndRef = useRef<HTMLDivElement>(null)
   const outputContainerRef = useRef<HTMLDivElement>(null)
 
@@ -19,14 +30,14 @@ const CommandLine = () => {
   useEffect(() => {
     if (outputEndRef.current && outputContainerRef.current) {
       const container = outputContainerRef.current
-      container.scrollTop = container.scrollHeight 
+      container.scrollTop = container.scrollHeight
     }
   }, [output])
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       setOutput((prev) => [...prev, `> ${command}`])
-      executeCommand(command, cwd, setOutput, setCwd)
+      executeCommand(command, cwd, setOutput, setCwd, openWindow)
       setCommandHistory((prev) => [...prev, command])
       setCommand('')
       setHistoryIndex(null)
@@ -62,7 +73,7 @@ const CommandLine = () => {
       sx={{
         p: 2,
         backgroundColor: '#121212',
-        color: 'text.primary',
+        color: '#fff',
         fontFamily: 'monospace',
         height: '400px',
         width: '600px',
@@ -92,7 +103,7 @@ const CommandLine = () => {
           fullWidth
           autoFocus
           slotProps={{ input: { disableUnderline: true, autoComplete: 'off' } }}
-          sx={{ input: { fontFamily: 'monospace' } }}
+          sx={{ input: { fontFamily: 'monospace', color: '#fff' } }}
         />
       </Box>
     </Box>
@@ -105,7 +116,8 @@ const executeCommand = (
   cmd: string,
   cwd: FileSystemNode,
   setOutput: Dispatch<SetStateAction<string[]>>,
-  setCwd: Dispatch<SetStateAction<FileSystemNode>>
+  setCwd: Dispatch<SetStateAction<FileSystemNode>>,
+  openWindow: (title: string, content: ReactNode) => void
 ) => {
   console.log('command', cmd)
   const args = cmd.trim().split(/\s+/)
@@ -149,6 +161,20 @@ const executeCommand = (
         setOutput((prev) => [...prev, 'Usage: cat <file>'])
       }
     },
+    ['open']: () => {
+      if (param) {
+        const target = cwd.children?.find(
+          (child) => child.title.toLowerCase() === param.toLowerCase()
+        )
+        if (target) {
+          runProgram(target.contentKey, target.type, openWindow)
+        } else {
+          setOutput((prev) => [...prev, `Directory or file "${param}" not found.`])
+        }
+      } else {
+        setOutput((prev) => [...prev, 'Usage: open <directory | file>'])
+      }
+    },
     ['clear']: () => {
       setOutput([])
     },
@@ -159,6 +185,7 @@ const executeCommand = (
         '- ls: List files and directories',
         '- cd <directory>: Change directory',
         '- cat <file>: View file content',
+        '- open <directory | file>: Open directory or file in a new window',
         '- clear: Clear the terminal',
         '- help: Show this help message',
       ])
