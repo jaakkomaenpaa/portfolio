@@ -1,4 +1,4 @@
-import { FileContent, AppIcon, App, Link, DesktopItem, FileSystemNode } from './types'
+import { AppIcon, FileSystemNode, ProgramType } from './types'
 import FolderIcon from '@mui/icons-material/Folder'
 import CalculateIcon from '@mui/icons-material/Calculate'
 import GitHubIcon from '@mui/icons-material/GitHub'
@@ -12,6 +12,7 @@ import Education from './folders/Education'
 import Experience from './folders/Experience'
 import Calculator from './apps/Calculator'
 import FileExplorer from './programs/FileExplorer'
+import { ReactNode } from 'react'
 
 const { GRID_SIZE_X } = config
 
@@ -19,57 +20,81 @@ export const FILE_SYSTEM: FileSystemNode[] = [
   {
     id: 0,
     title: 'root',
-    type: 'folder',
-    iconKey: AppIcon.Folder,
+    type: ProgramType.Folder,
+    iconKey: AppIcon.FolderColored,
+    contentKey: '0',
     children: [
       {
-        id: 6,
+        id: 7,
         title: 'Calculator',
-        type: 'file',
+        type: ProgramType.App,
         iconKey: AppIcon.Calculator,
-        contentKey: FileContent.Calculator,
+        contentKey: 'Calculator',
       },
       {
-        id: 9,
+        id: 1,
         title: 'Info',
-        type: 'folder',
+        type: ProgramType.Folder,
         iconKey: AppIcon.Folder,
-        contentKey: FileContent.ExplorerInfo,
+        contentKey: '9',
         children: [
           {
-            id: 1,
-            title: 'About me',
-            type: 'file',
-            iconKey: AppIcon.Folder,
-            contentKey: FileContent.AboutMe,
-          },
-          {
             id: 2,
-            title: 'Skills',
-            type: 'file',
+            title: 'About me',
+            type: ProgramType.App,
             iconKey: AppIcon.Folder,
-            contentKey: FileContent.Skills,
+            contentKey: 'About me',
           },
           {
             id: 3,
-            title: 'Education',
-            type: 'file',
+            title: 'Skills',
+            type: ProgramType.App,
             iconKey: AppIcon.Folder,
-            contentKey: FileContent.Education,
+            contentKey: 'Skills',
           },
           {
             id: 4,
-            title: 'Experience',
-            type: 'file',
+            title: 'Education',
+            type: ProgramType.App,
             iconKey: AppIcon.Folder,
-            contentKey: FileContent.Experience,
+            contentKey: 'Education',
           },
           {
             id: 5,
-            title: 'Portfolio',
-            type: 'file',
+            title: 'Experience',
+            type: ProgramType.App,
             iconKey: AppIcon.Folder,
-            contentKey: FileContent.Portfolio,
+            contentKey: 'Experience',
+          },
+          {
+            id: 6,
+            title: 'Portfolio',
+            type: ProgramType.App,
+            iconKey: AppIcon.Folder,
+            contentKey: 'Portfolio',
+          },
+        ],
+      },
+      {
+        id: 8,
+        title: 'Links',
+        type: ProgramType.Folder,
+        iconKey: AppIcon.Folder,
+        contentKey: '8',
+        children: [
+          {
+            id: 9,
+            title: 'GitHub',
+            type: ProgramType.Link,
+            iconKey: AppIcon.GitHub,
+            contentKey: 'https://github.com/jaakkomaenpaa',
+          },
+          {
+            id: 10,
+            title: 'LinkedIn',
+            type: ProgramType.Link,
+            iconKey: AppIcon.LinkedIn,
+            contentKey: 'https://www.linkedin.com/in/jaakko-mäenpää-37a11a262',
           },
         ],
       },
@@ -85,95 +110,51 @@ export const PROGRAM_ICONS = {
   [AppIcon.LinkedIn]: (props: any) => <LinkedInIcon {...props} />,
 }
 
-export const PROGRAM_CONTENTS = {
-  [FileContent.AboutMe]: <AboutMe />,
-  [FileContent.Portfolio]: <Portfolio />,
-  [FileContent.Skills]: <Skills />,
-  [FileContent.Education]: <Education />,
-  [FileContent.Experience]: <Experience />,
-  [FileContent.Calculator]: <Calculator />,
-  [FileContent.Explorer]: <FileExplorer />,
-  [FileContent.ExplorerInfo]: (
-    <FileExplorer node={FILE_SYSTEM[0].children?.find((n) => n.title === 'Info')} />
-  ),
+export const APP_CONTENTS: Record<string, ReactNode> = {
+  ['About me']: <AboutMe />,
+  ['Portfolio']: <Portfolio />,
+  ['Skills']: <Skills />,
+  ['Education']: <Education />,
+  ['Experience']: <Experience />,
+  ['Calculator']: <Calculator />,
+  ['Explorer']: <FileExplorer />,
 }
 
-export const isApp = (item: DesktopItem): item is App => {
-  return (item as App).contentKey !== undefined
+export const runProgram = (
+  key: string,
+  programType: ProgramType,
+  openWindow?: (title: string, content: ReactNode) => void
+) => {
+  if (programType === ProgramType.Link) {
+    // Key should be an url
+    window.open(key, '_blank')
+  } else if (programType === ProgramType.App) {
+    // Key should be the program title
+    if (openWindow) {
+      openWindow(key, APP_CONTENTS[key])
+    }
+  } else if (programType === ProgramType.Folder) {
+    // Key should be an string representation of a node id
+    if (openWindow) {
+      openWindow('Explorer', <FileExplorer nodeId={parseInt(key)} />)
+    }
+  }
 }
 
-export const isLink = (item: DesktopItem): item is Link => {
-  return (item as Link).url !== undefined
-}
+console.log(FILE_SYSTEM[0].children)
 
-export const LINKS: Link[] = [
+export const DESKTOP_ITEMS = [
+  // Root
   {
-    id: 7,
-    title: 'GitHub',
-    iconKey: AppIcon.GitHub,
-    url: 'https://github.com/jaakkomaenpaa',
-  },
-  {
-    id: 8,
-    title: 'LinkedIn',
-    iconKey: AppIcon.LinkedIn,
-    url: 'https://www.linkedin.com/in/jaakko-mäenpää-37a11a262/',
-  },
-]
-
-export const APPS: App[] = [
-  {
-    id: 6,
-    title: 'Calculator',
-    contentKey: FileContent.Calculator,
-    iconKey: AppIcon.Calculator,
-    position: { x: GRID_SIZE_X * 5, y: 0 },
-  },
-  {
-    id: 9,
+    ...FILE_SYSTEM[0],
     title: 'Explorer',
-    contentKey: FileContent.Explorer,
-    iconKey: AppIcon.FolderColored,
-    position: { x: GRID_SIZE_X * 6, y: 0 },
-  },
-]
-
-export const FOLDERS: App[] = [
-  {
-    id: 1,
-    title: 'Portfolio',
-    contentKey: FileContent.Portfolio,
-    iconKey: AppIcon.Folder,
     position: { x: 0, y: 0 },
   },
-  {
-    id: 2,
-    title: 'About me',
-    iconKey: AppIcon.Folder,
-    contentKey: FileContent.AboutMe,
-    position: { x: GRID_SIZE_X, y: 0 },
-  },
-  {
-    id: 3,
-    title: 'Skills',
-    iconKey: AppIcon.Folder,
-    contentKey: FileContent.Skills,
-    position: { x: GRID_SIZE_X * 2, y: 0 },
-  },
-  {
-    id: 4,
-    title: 'Education',
-    iconKey: AppIcon.Folder,
-    contentKey: FileContent.Education,
-    position: { x: GRID_SIZE_X * 3, y: 0 },
-  },
-  {
-    id: 5,
-    title: 'Experience',
-    iconKey: AppIcon.Folder,
-    contentKey: FileContent.Experience,
-    position: { x: GRID_SIZE_X * 4, y: 0 },
-  },
+  // Info folder
+  ...FILE_SYSTEM[0].children![1].children!.map(
+    (node: FileSystemNode, index: number) => ({
+      ...node,
+      position: { x: GRID_SIZE_X * (index + 1), y: 0 },
+    })
+  ),
 ]
-
-export const DEFAULT_PROGRAMS: App[] = [...APPS, ...FOLDERS]

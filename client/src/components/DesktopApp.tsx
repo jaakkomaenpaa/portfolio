@@ -2,9 +2,9 @@ import Draggable from 'react-draggable'
 import { useRef, useState } from 'react'
 import { Box, Menu, MenuItem, styled, Typography } from '@mui/material'
 
-import { App, DesktopItem, Position } from '../types'
+import { DesktopItem, Position } from '../types'
 import { useDesktopStore } from '../stores/DesktopStore'
-import { isApp, isLink, PROGRAM_CONTENTS, PROGRAM_ICONS } from '../programs'
+import { PROGRAM_ICONS, runProgram } from '../programs'
 import { useWindowStore } from '../stores/WindowStore'
 import config from '../config'
 
@@ -36,14 +36,18 @@ const isColliding = (pos1: Position, pos2: Position) => {
   )
 }
 
-const resolveCollision = (desktopApps: App[], id: number, position: Position) => {
+const resolveCollision = (
+  desktopItems: DesktopItem[],
+  id: number,
+  position: Position
+) => {
   const adjustedPosition = { ...position }
 
   while (
-    desktopApps.some(
-      (app: App) =>
+    desktopItems.some(
+      (item: DesktopItem) =>
         // Position should always exist at this point
-        app.id !== id && isColliding(app.position!, adjustedPosition)
+        item.id !== id && isColliding(item.position!, adjustedPosition)
     )
   ) {
     adjustedPosition.x += FOLDER_SIZE
@@ -61,7 +65,8 @@ interface DesktopAppProps {
 }
 
 const DesktopApp = ({ app }: DesktopAppProps) => {
-  const { desktopApps, updateAppPosition, removeAppFromDesktop } = useDesktopStore()
+  const { desktopItems, updateItemPosition, removeItemFromDesktop } =
+    useDesktopStore()
   const { openWindow } = useWindowStore()
 
   const appRef = useRef<HTMLDivElement>(null)
@@ -83,11 +88,7 @@ const DesktopApp = ({ app }: DesktopAppProps) => {
   }
 
   const handleOpenItem = (item: DesktopItem) => {
-    if (isApp(item)) {
-      openWindow(item.title, PROGRAM_CONTENTS[item.contentKey])
-    } else if (isLink(item)) {
-      window.open(item.url, '_blank')
-    }
+    runProgram(item.contentKey, item.type, openWindow)
   }
 
   return (
@@ -100,11 +101,11 @@ const DesktopApp = ({ app }: DesktopAppProps) => {
         onStop={(_, data) => {
           const snappedPosition = snapToGrid(data.x, data.y)
           const resolvedPosition = resolveCollision(
-            desktopApps,
+            desktopItems,
             app.id,
             snappedPosition
           )
-          updateAppPosition(app.id, resolvedPosition)
+          updateItemPosition(app.id, resolvedPosition)
         }}
       >
         <div ref={appRef} onContextMenu={handleContextMenu}>
@@ -133,7 +134,7 @@ const DesktopApp = ({ app }: DesktopAppProps) => {
         </MenuItem>
         <MenuItem
           onClick={() => {
-            removeAppFromDesktop(app.id)
+            removeItemFromDesktop(app.id)
             handleCloseMenu()
           }}
         >

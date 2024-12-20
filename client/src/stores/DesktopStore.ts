@@ -1,61 +1,61 @@
 import { create } from 'zustand'
-import { Position, App } from '../types'
-import { DEFAULT_PROGRAMS } from '../programs'
+import { Position, DesktopItem } from '../types'
+import { DESKTOP_ITEMS } from '../programs'
 
 interface DesktopStore {
-  desktopApps: App[]
+  desktopItems: DesktopItem[]
   nextId: number
-  updateAppPosition: (id: number, position: Position) => void
-  addAppToDesktop: (app: App) => void
-  removeAppFromDesktop: (id: number) => void
+  updateItemPosition: (id: number, position: Position) => void
+  addItemToDesktop: (item: DesktopItem) => void
+  removeItemFromDesktop: (id: number) => void
 }
 
-const getSavedDesktopApps = (): App[] => {
-  const desktopApps = localStorage.getItem('apps')
+const getSavedDesktopItems = (): DesktopItem[] => {
+  const desktopItems = localStorage.getItem('items')
 
-  if (desktopApps) {
-    return JSON.parse(desktopApps)
+  if (desktopItems) {
+    return JSON.parse(desktopItems)
   }
 
-  return DEFAULT_PROGRAMS.filter((entity: App) => entity.position)
+  return DESKTOP_ITEMS.filter((item: DesktopItem) => item.position)
 }
 
 export const useDesktopStore = create<DesktopStore>((set, get) => ({
-  desktopApps: getSavedDesktopApps(),
-  nextId: DEFAULT_PROGRAMS.length + 1,
+  desktopItems: getSavedDesktopItems(),
+  nextId: DESKTOP_ITEMS.length + 1,
 
-  updateAppPosition: (id: number, position: Position) =>
+  updateItemPosition: (id: number, position: Position) =>
     set((state) => {
-      const updatedEntities = state.desktopApps.map((entity) =>
+      const updatedItems = state.desktopItems.map((entity) =>
         entity.id === id ? { ...entity, position } : entity
       )
 
-      localStorage.setItem('apps', JSON.stringify(updatedEntities))
-      return { desktopApps: updatedEntities }
+      localStorage.setItem('items', JSON.stringify(updatedItems))
+      return { desktopItems: updatedItems }
     }),
 
-  addAppToDesktop: (app: App) => {
-    const { desktopApps, nextId } = get()
-    const updatedApps = [
-      ...desktopApps,
-      { ...app, id: nextId, position: app.position || { x: 0, y: 0 } },
+  addItemToDesktop: (item: DesktopItem) => {
+    const { desktopItems, nextId } = get()
+    const updatedItems = [
+      ...desktopItems,
+      { ...item, id: nextId, position: item.position || { x: 0, y: 0 } },
     ]
-    localStorage.setItem('apps', JSON.stringify(updatedApps))
+    localStorage.setItem('apps', JSON.stringify(updatedItems))
 
     set({
-      desktopApps: updatedApps,
+      desktopItems: updatedItems,
       nextId: nextId + 1,
     })
   },
 
-  removeAppFromDesktop: (id: number) => {
-    const { desktopApps } = get()
+  removeItemFromDesktop: (id: number) => {
+    const { desktopItems } = get()
 
-    const updatedApps = desktopApps.filter((app) => app.id !== id)
-    localStorage.setItem('apps', JSON.stringify(updatedApps))
+    const updatedItems = desktopItems.filter((app) => app.id !== id)
+    localStorage.setItem('apps', JSON.stringify(updatedItems))
 
     set({
-      desktopApps: updatedApps,
+      desktopItems: updatedItems,
     })
   },
 }))

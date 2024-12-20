@@ -2,15 +2,7 @@ import { Box, List, ListItemButton, Paper } from '@mui/material'
 import { useWindowStore } from '../stores/WindowStore'
 import { DesktopItem } from '../types'
 import { useState } from 'react'
-import {
-  APPS,
-  FOLDERS,
-  isApp,
-  isLink,
-  LINKS,
-  PROGRAM_CONTENTS,
-  PROGRAM_ICONS,
-} from '../programs'
+import { PROGRAM_ICONS, runProgram } from '../programs'
 
 enum SubMenu {
   Apps,
@@ -37,11 +29,7 @@ const StartMenu = () => {
   }
 
   const handleItemClick = (item: DesktopItem) => {
-    if (isApp(item)) {
-      openWindow(item.title, PROGRAM_CONTENTS[item.contentKey])
-    } else if (isLink(item)) {
-      window.open(item.url, '_blank')
-    }
+    runProgram(item.contentKey, item.type, openWindow)
   }
 
   const renderApps = (apps: DesktopItem[]) => {
@@ -84,37 +72,7 @@ const StartMenu = () => {
           width: '100%',
           position: 'relative',
         }}
-      >
-        <List>
-          <ListItemButton onClick={() => handleOpenSubmenu(SubMenu.Apps)}>
-            Apps
-          </ListItemButton>
-          <ListItemButton onClick={() => handleOpenSubmenu(SubMenu.Folders)}>
-            Folders
-          </ListItemButton>
-          <ListItemButton onClick={() => handleOpenSubmenu(SubMenu.Links)}>
-            Links
-          </ListItemButton>
-        </List>
-
-        {submenu === SubMenu.Apps && (
-          <Paper elevation={8} sx={{ position: 'absolute', left: '100%', top: 0 }}>
-            {renderApps(APPS)}
-          </Paper>
-        )}
-
-        {submenu === SubMenu.Folders && (
-          <Paper elevation={8} sx={{ position: 'absolute', left: '100%', top: 0 }}>
-            {renderApps(FOLDERS)}
-          </Paper>
-        )}
-
-        {submenu === SubMenu.Links && (
-          <Paper elevation={8} sx={{ position: 'absolute', left: '100%', top: 0 }}>
-            {renderApps(LINKS)}
-          </Paper>
-        )}
-      </Paper>
+      ></Paper>
     </Box>
   )
 }

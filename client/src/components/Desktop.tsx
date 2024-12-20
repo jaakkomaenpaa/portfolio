@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles'
 
 import DraggableWindow from './DraggableWindow'
 import { useWindowStore } from '../stores/WindowStore'
-import { App } from '../types'
+import { DesktopItem } from '../types'
 import { useDesktopStore } from '../stores/DesktopStore'
 import DesktopApp from './DesktopApp'
 import { DragEvent } from 'react'
@@ -20,15 +20,15 @@ const StyledDesktop = styled(Box)(({ theme }) => ({
 }))
 
 const Desktop = () => {
-  const { desktopApps, addAppToDesktop } = useDesktopStore()
+  const { desktopItems, addItemToDesktop } = useDesktopStore()
   const { windows, closeWindow } = useWindowStore()
 
   const handleDrop = (event: DragEvent) => {
     event.preventDefault()
-    const appData = event.dataTransfer?.getData('application/json')
-    if (appData) {
-      const app: App = JSON.parse(appData)
-      addAppToDesktop({ ...app, position: { x: event.clientX, y: event.clientY } })
+    const itemData = event.dataTransfer?.getData('application/json')
+    if (itemData) {
+      const item: DesktopItem = JSON.parse(itemData)
+      addItemToDesktop({ ...item, position: { x: event.clientX, y: event.clientY } })
     }
   }
 
@@ -38,8 +38,8 @@ const Desktop = () => {
 
   return (
     <StyledDesktop onDrop={handleDrop} onDragOver={handleDragOver}>
-      {desktopApps.map((app: App) => (
-        <DesktopApp key={app.id} app={app} />
+      {desktopItems.map((item: DesktopItem) => (
+        <DesktopApp key={item.id} app={item} />
       ))}
 
       {windows.map((window) => (

@@ -11,21 +11,6 @@ export interface Position {
   y: number
 }
 
-export interface DesktopItem {
-  id: number
-  title: string
-  position?: Position
-  iconKey: AppIcon
-}
-
-export interface App extends DesktopItem {
-  contentKey: FileContent
-}
-
-export interface Link extends DesktopItem {
-  url: string
-}
-
 export enum AppIcon {
   FolderColored,
   Folder,
@@ -34,22 +19,21 @@ export enum AppIcon {
   LinkedIn,
 }
 
-export enum FileContent {
-  Portfolio,
-  AboutMe,
-  Skills,
-  Education,
-  Experience,
-  Calculator,
-  Explorer,
-  ExplorerInfo
-}
-
 export interface FileSystemNode {
   id: number
   title: string
-  type: 'folder' | 'file'
   iconKey: AppIcon
-  contentKey?: FileContent
+  contentKey: string
+  type: ProgramType
   children?: FileSystemNode[]
+}
+
+export interface DesktopItem extends FileSystemNode {
+  position?: Position
+}
+
+export enum ProgramType {
+  App,
+  Folder,
+  Link,
 }
