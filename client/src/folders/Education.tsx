@@ -9,7 +9,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 const Education = () => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, padding: '16px' }}>
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}

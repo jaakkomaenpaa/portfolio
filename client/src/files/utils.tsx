@@ -14,6 +14,7 @@ import Education from '../folders/Education'
 import Experience from '../folders/Experience'
 import Calculator from '../apps/Calculator'
 import FileExplorer from '../programs/FileExplorer'
+import CommandLine from '../programs/CommandLine'
 
 export const PROGRAM_ICONS = {
   [AppIcon.FolderColored]: (props: any) => <FolderIcon color='folder' {...props} />,
@@ -33,6 +34,7 @@ export const APP_CONTENTS: Record<string, ReactNode> = {
   ['Experience']: <Experience />,
   ['Calculator']: <Calculator />,
   ['Explorer']: <FileExplorer />,
+  ['Cmd line']: <CommandLine />,
 }
 
 export const runProgram = (

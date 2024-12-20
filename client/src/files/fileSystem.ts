@@ -1,4 +1,4 @@
-import { AppIcon, FileSystemNode, ProgramType } from "../types";
+import { AppIcon, FileSystemNode, ProgramType } from '../types'
 
 export const FILE_SYSTEM: FileSystemNode[] = [
   {
@@ -17,7 +17,7 @@ export const FILE_SYSTEM: FileSystemNode[] = [
       },
       {
         id: 11,
-        title: 'Cmd line',
+        title: 'cmd-line',
         type: ProgramType.App,
         iconKey: AppIcon.Code,
         contentKey: 'Cmd line',

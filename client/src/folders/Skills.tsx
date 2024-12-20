@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material'
 
 const Skills = () => {
   return (
-    <Box>
+    <Box sx={{ padding: '16px' }}>
       <Typography sx={{ mb: 1, color: 'text.secondary' }}>Background</Typography>
       <Typography sx={{ mb: 3 }} variant='body1'>
         First started to take interest on programming in January 2022 through

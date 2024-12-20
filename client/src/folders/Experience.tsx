@@ -3,7 +3,7 @@ import { useWindowStore } from '../stores/WindowStore'
 
 const StartupWindow = () => {
   return (
-    <Box>
+    <Box sx={{ padding: '16px' }}>
       <Typography sx={{ mb: 1, color: 'text.secondary' }}>General</Typography>
       <Typography sx={{ mb: 3 }}>
         Started working in a 4-person startup in April 2024 alongside studies as a
@@ -26,7 +26,7 @@ const Experience = () => {
   const { openWindow } = useWindowStore()
 
   return (
-    <Box>
+    <Box sx={{ padding: '16px' }}>
       <Button
         variant='outlined'
         sx={{

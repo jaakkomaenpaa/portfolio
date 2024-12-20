@@ -53,7 +53,7 @@ const FileExplorer = ({ nodeId }: FileExplorerProps) => {
   }
 
   return (
-    <Box>
+    <Box sx={{ padding: '16px' }}>
       <Button onClick={handleBack} disabled={navigationStack.length <= 1}>
         <ArrowBackIcon />
       </Button>
