@@ -11,7 +11,7 @@ interface DraggableWindowProps {
 
 const AppWindow = styled(Box)(({ theme }) => ({
   position: 'absolute',
-  width: '400px',
+  minWidth: '400px',
   backgroundColor: theme.palette.background.default,
   color: theme.palette.text.primary,
   boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.4)',

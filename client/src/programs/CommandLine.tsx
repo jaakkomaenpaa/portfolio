@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import { PROGRAMS } from '../files/programs'
 import { FileSystemNode, ProgramType } from '../types'
 import { Box, TextField, Typography } from '@mui/material'
@@ -9,11 +9,51 @@ const CommandLine = () => {
   const [output, setOutput] = useState<string[]>([])
   const [command, setCommand] = useState<string>('')
 
+  const [commandHistory, setCommandHistory] = useState<string[]>([])
+  const [_, setHistoryIndex] = useState<number | null>(null)
+
+  const outputEndRef = useRef<HTMLDivElement>(null)
+  const outputContainerRef = useRef<HTMLDivElement>(null)
+
+  // Scroll to bottom when new output is added
+  useEffect(() => {
+    if (outputEndRef.current && outputContainerRef.current) {
+      const container = outputContainerRef.current
+      container.scrollTop = container.scrollHeight 
+    }
+  }, [output])
+
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       setOutput((prev) => [...prev, `> ${command}`])
       executeCommand(command, cwd, setOutput, setCwd)
+      setCommandHistory((prev) => [...prev, command])
       setCommand('')
+      setHistoryIndex(null)
+
+      // These two are a product of GPT-4o
+    } else if (e.key === 'ArrowUp') {
+      if (commandHistory.length > 0) {
+        setHistoryIndex((prevIndex) => {
+          const newIndex =
+            prevIndex === null
+              ? commandHistory.length - 1
+              : Math.max(0, prevIndex - 1)
+          setCommand(commandHistory[newIndex])
+          return newIndex
+        })
+      }
+    } else if (e.key === 'ArrowDown') {
+      if (commandHistory.length > 0) {
+        setHistoryIndex((prevIndex) => {
+          if (prevIndex === null || prevIndex === commandHistory.length - 1) {
+            setCommand('')
+          }
+          const newIndex = Math.min(commandHistory.length - 1, prevIndex! + 1)
+          setCommand(commandHistory[newIndex])
+          return newIndex
+        })
+      }
     }
   }
 
@@ -25,16 +65,22 @@ const CommandLine = () => {
         color: 'text.primary',
         fontFamily: 'monospace',
         height: '400px',
+        width: '600px',
         overflowY: 'auto',
+        position: 'relative',
       }}
+      ref={outputContainerRef}
     >
       <Box sx={{ mb: 2 }}>
         {output.map((line, index) => (
-          <Typography key={index}>{line}</Typography>
+          <Typography key={index} sx={{ fontFamily: 'monospace' }}>
+            {line}
+          </Typography>
         ))}
+        <div ref={outputEndRef} />
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Typography sx={{ mr: 1, flexShrink: 0 }}>
+        <Typography sx={{ mr: 1, flexShrink: 0, fontFamily: 'monospace' }}>
           {cwd.title}
           {' $'}
         </Typography>
@@ -44,7 +90,9 @@ const CommandLine = () => {
           onKeyDown={handleKeyPress}
           variant='standard'
           fullWidth
+          autoFocus
           slotProps={{ input: { disableUnderline: true, autoComplete: 'off' } }}
+          sx={{ input: { fontFamily: 'monospace' } }}
         />
       </Box>
     </Box>
@@ -107,12 +155,12 @@ const executeCommand = (
     ['help']: () => {
       setOutput((prev) => [
         ...prev,
-        `Available commands:
-        - ls: List files and directories
-        - cd <directory>: Change directory
-        - cat <file>: View file content
-        - clear: Clear the terminal
-        - help: Show this help message`,
+        'Available commands:',
+        '- ls: List files and directories',
+        '- cd <directory>: Change directory',
+        '- cat <file>: View file content',
+        '- clear: Clear the terminal',
+        '- help: Show this help message',
       ])
     },
   }
