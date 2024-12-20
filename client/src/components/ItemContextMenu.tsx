@@ -1,5 +1,6 @@
 import { Menu, MenuItem } from '@mui/material'
 import { FileSystemNode } from '../types'
+import { useTaskbarStore } from '../stores/TaskbarStore'
 
 interface ItemContextMenuProps {
   parentItem: FileSystemNode
@@ -16,7 +17,8 @@ const ItemContextMenu = ({
   closeMenu,
   removeItem,
 }: ItemContextMenuProps) => {
-  
+  const { addItemToTaskbar } = useTaskbarStore()
+
   return (
     <Menu
       open={!!menuAnchor}
@@ -33,6 +35,14 @@ const ItemContextMenu = ({
         }}
       >
         Open
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          addItemToTaskbar(parentItem)
+          closeMenu()
+        }}
+      >
+        Add to taskbar
       </MenuItem>
       <MenuItem
         onClick={() => {

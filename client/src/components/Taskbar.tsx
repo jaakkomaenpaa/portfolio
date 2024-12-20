@@ -1,5 +1,5 @@
 import { Box, IconButton, Typography } from '@mui/material'
-import { useEffect, useRef, useState } from 'react'
+import { DragEvent, useEffect, useRef, useState } from 'react'
 import MenuIcon from '@mui/icons-material/Menu'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull'
@@ -7,8 +7,9 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime'
 
 import StartMenu from './StartMenu'
 import config from '../config'
-import { FILE_SYSTEM } from '../programs'
 import TaskbarApp from './TaskbarApp'
+import { useTaskbarStore } from '../stores/TaskbarStore'
+import { FileSystemNode } from '../types'
 
 const { TASKBAR_HEIGHT } = config
 
@@ -16,14 +17,7 @@ const Taskbar = () => {
   const [currentTime, setCurrentTime] = useState<Date>(new Date())
   const [openMenu, setOpenMenu] = useState(false)
   const menuRef = useRef<HTMLDivElement | null>(null)
-
-  const toggleMenu = () => {
-    setOpenMenu((prev) => !prev)
-  }
-
-  const closeMenu = () => {
-    setOpenMenu(false)
-  }
+  const { taskbarItems, addItemToTaskbar } = useTaskbarStore()
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000)
@@ -43,7 +37,27 @@ const Taskbar = () => {
     }
   }, [])
 
-  const fileExplorer = FILE_SYSTEM[0]
+  const toggleMenu = () => {
+    setOpenMenu((prev) => !prev)
+  }
+
+  const closeMenu = () => {
+    setOpenMenu(false)
+  }
+
+  const handleDrop = (event: DragEvent) => {
+    event.preventDefault()
+    const itemData = event.dataTransfer?.getData('application/json')
+
+    if (itemData) {
+      const item: FileSystemNode = JSON.parse(itemData)
+      addItemToTaskbar(item)
+    }
+  }
+
+  const handleDragOver = (event: DragEvent) => {
+    event.preventDefault()
+  }
 
   return (
     <Box
@@ -57,6 +71,8 @@ const Taskbar = () => {
         height: TASKBAR_HEIGHT,
         position: 'relative',
       }}
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
     >
       {openMenu && (
         <div ref={menuRef}>
@@ -75,9 +91,12 @@ const Taskbar = () => {
           alignItems: 'center',
           justifyContent: 'center',
           flexGrow: 1,
+          gap: 2,
         }}
       >
-        <TaskbarApp app={fileExplorer} />
+        {taskbarItems.map((item) => (
+          <TaskbarApp key={item.id} app={item} />
+        ))}
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
