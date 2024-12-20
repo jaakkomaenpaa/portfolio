@@ -2,7 +2,7 @@ import { Box, List, ListItemButton, Paper } from '@mui/material'
 import { useWindowStore } from '../stores/WindowStore'
 import { DesktopItem } from '../types'
 import { useState } from 'react'
-import { PROGRAM_ICONS, runProgram } from '../programs'
+import { PROGRAM_ICONS, runProgram } from '../files/utils'
 
 enum SubMenu {
   Apps,

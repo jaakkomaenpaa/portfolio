@@ -1,11 +1,11 @@
 import { Box, styled } from '@mui/material'
 
 import { DesktopItem, FileSystemNode } from '../types'
-import { PROGRAM_ICONS, runProgram } from '../programs'
 import { useWindowStore } from '../stores/WindowStore'
 import ItemContextMenu from './ItemContextMenu'
 import { useContextMenu } from '../hooks/useContextMenu'
 import { useTaskbarStore } from '../stores/TaskbarStore'
+import { PROGRAM_ICONS, runProgram } from '../files/utils'
 
 interface TaskbarAppProps {
   app: FileSystemNode

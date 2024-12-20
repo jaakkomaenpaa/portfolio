@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { Position, DesktopItem } from '../types'
-import { DESKTOP_ITEMS } from '../programs'
+import { DESKTOP_ITEMS } from '../files/programs'
 
 interface DesktopStore {
   desktopItems: DesktopItem[]

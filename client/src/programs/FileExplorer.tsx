@@ -3,8 +3,9 @@ import { Box, Button } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 import { FileSystemNode, ProgramType } from '../types'
-import { FILE_SYSTEM, runProgram } from '../programs'
 import { useWindowStore } from '../stores/WindowStore'
+import { FILE_SYSTEM } from '../files/fileSystem'
+import { runProgram } from '../files/utils'
 
 interface FileExplorerItemProps {
   node: FileSystemNode

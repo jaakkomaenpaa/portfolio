@@ -4,11 +4,12 @@ import { Box, styled, Typography } from '@mui/material'
 
 import { DesktopItem, Position } from '../types'
 import { useDesktopStore } from '../stores/DesktopStore'
-import { PROGRAM_ICONS, runProgram } from '../programs'
+
 import { useWindowStore } from '../stores/WindowStore'
 import config from '../config'
 import ItemContextMenu from './ItemContextMenu'
 import { useContextMenu } from '../hooks/useContextMenu'
+import { PROGRAM_ICONS, runProgram } from '../files/utils'
 
 const { GRID_SIZE_X, GRID_SIZE_Y, FOLDER_SIZE, BOUNDS } = config
 

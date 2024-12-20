@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { FileSystemNode } from '../types'
-import { TASKBAR_ITEMS } from '../programs'
+import { TASKBAR_ITEMS } from '../files/programs'
 
 interface TaskbarStore {
   taskbarItems: FileSystemNode[]
