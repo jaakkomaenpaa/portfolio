@@ -95,9 +95,6 @@ const StartMenu = () => {
           <ListItemButton onClick={() => handleOpenSubmenu(SubMenu.Links)}>
             Links
           </ListItemButton>
-          <ListItemButton onClick={() => handleOpenSubmenu(SubMenu.Settings)}>
-            Settings
-          </ListItemButton>
         </List>
 
         {submenu === SubMenu.Apps && (
@@ -115,15 +112,6 @@ const StartMenu = () => {
         {submenu === SubMenu.Links && (
           <Paper elevation={8} sx={{ position: 'absolute', left: '100%', top: 0 }}>
             {renderApps(LINKS)}
-          </Paper>
-        )}
-
-        {submenu === SubMenu.Settings && (
-          <Paper elevation={8} sx={{ position: 'absolute', left: '100%', top: 0 }}>
-            <List>
-              <ListItemButton onClick={handleCloseSubmenu}>General</ListItemButton>
-              <ListItemButton onClick={handleCloseSubmenu}>System</ListItemButton>
-            </List>
           </Paper>
         )}
       </Paper>

@@ -19,7 +19,7 @@ export interface DesktopItem {
 }
 
 export interface App extends DesktopItem {
-  contentKey: AppContent
+  contentKey: FileContent
 }
 
 export interface Link extends DesktopItem {
@@ -33,11 +33,21 @@ export enum AppIcon {
   LinkedIn,
 }
 
-export enum AppContent {
+export enum FileContent {
   Portfolio,
   AboutMe,
   Skills,
   Education,
   Experience,
   Calculator,
+  Explorer,
+}
+
+export interface FileSystemNode {
+  id: number
+  name: string
+  type: 'folder' | 'file'
+  iconKey: AppIcon
+  content?: FileContent
+  children?: FileSystemNode[]
 }
