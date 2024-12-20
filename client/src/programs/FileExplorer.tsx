@@ -12,18 +12,52 @@ interface FileExplorerItemProps {
 
 const FileExplorerItem = ({ node }: FileExplorerItemProps) => {
   return (
-    <Box sx={{ display: 'flex', gap: 1 }}>
+    <Box
+      draggable
+      onDragStart={(e) =>
+        e.dataTransfer.setData('application/json', JSON.stringify(node))
+      }
+      sx={{ display: 'flex', gap: 1 }}
+    >
       {node.type === 'folder' ? '📁' : '📄'}
-      {node.name}
+      {node.title}
     </Box>
   )
 }
 
-const FileExplorer = () => {
+interface FileExplorerProps {
+  node?: FileSystemNode
+}
+
+// Fine for small file tree, but could be optimized for larger system
+const getNavigationStack = (
+  fileSystem: FileSystemNode[],
+  targetNode: FileSystemNode,
+  currentStack: FileSystemNode[]
+): FileSystemNode[] => {
+  for (const node of fileSystem) {
+    const newStack = [...currentStack, node]
+
+    if (node.id === targetNode.id) {
+      return newStack
+    }
+
+    if (node.children) {
+      const stack = getNavigationStack(node.children, targetNode, newStack)
+      if (stack) {
+        return stack
+      }
+    }
+  }
+
+  return [FILE_SYSTEM[0]]
+}
+
+const FileExplorer = ({ node }: FileExplorerProps) => {
+  const stack = getNavigationStack(FILE_SYSTEM, node || FILE_SYSTEM[0], [])
+  const [navigationStack, setNavigationStack] = useState<FileSystemNode[]>(stack)
+
   const { openWindow } = useWindowStore()
-  const [navigationStack, setNavigationStack] = useState<FileSystemNode[]>([
-    FILE_SYSTEM[0],
-  ])
 
   const currentNode = navigationStack[navigationStack.length - 1]
 
@@ -38,7 +72,7 @@ const FileExplorer = () => {
       setNavigationStack((stack) => [...stack, node])
     } else {
       // Content should exist on all files
-      openWindow(node.name, PROGRAM_CONTENTS[node.content!])
+      openWindow(node.title, PROGRAM_CONTENTS[node.contentKey!])
     }
   }
 

@@ -27,6 +27,7 @@ export interface Link extends DesktopItem {
 }
 
 export enum AppIcon {
+  FolderColored,
   Folder,
   Calculator,
   GitHub,
@@ -41,13 +42,14 @@ export enum FileContent {
   Experience,
   Calculator,
   Explorer,
+  ExplorerInfo
 }
 
 export interface FileSystemNode {
   id: number
-  name: string
+  title: string
   type: 'folder' | 'file'
   iconKey: AppIcon
-  content?: FileContent
+  contentKey?: FileContent
   children?: FileSystemNode[]
 }

@@ -1,5 +1,14 @@
 import { createTheme, Theme } from '@mui/material'
 
+declare module '@mui/material/styles' {
+  interface Palette {
+    folder: Palette['primary']
+  }
+  interface PaletteOptions {
+    folder?: PaletteOptions['primary']
+  }
+}
+
 export const lightTheme: Theme = createTheme({
   palette: {
     mode: 'light',
@@ -16,6 +25,9 @@ export const lightTheme: Theme = createTheme({
     text: {
       primary: '#121212',
       secondary: '#555555',
+    },
+    folder: {
+      main: '#F2C94C',
     },
   },
 })
@@ -36,6 +48,9 @@ export const darkTheme: Theme = createTheme({
     text: {
       primary: '#ffffff',
       secondary: '#aaaaaa',
+    },
+    folder: {
+      main: '#F2C94C',
     },
   },
 })

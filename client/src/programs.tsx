@@ -15,7 +15,70 @@ import FileExplorer from './programs/FileExplorer'
 
 const { GRID_SIZE_X } = config
 
+export const FILE_SYSTEM: FileSystemNode[] = [
+  {
+    id: 0,
+    title: 'root',
+    type: 'folder',
+    iconKey: AppIcon.Folder,
+    children: [
+      {
+        id: 6,
+        title: 'Calculator',
+        type: 'file',
+        iconKey: AppIcon.Calculator,
+        contentKey: FileContent.Calculator,
+      },
+      {
+        id: 9,
+        title: 'Info',
+        type: 'folder',
+        iconKey: AppIcon.Folder,
+        contentKey: FileContent.ExplorerInfo,
+        children: [
+          {
+            id: 1,
+            title: 'About me',
+            type: 'file',
+            iconKey: AppIcon.Folder,
+            contentKey: FileContent.AboutMe,
+          },
+          {
+            id: 2,
+            title: 'Skills',
+            type: 'file',
+            iconKey: AppIcon.Folder,
+            contentKey: FileContent.Skills,
+          },
+          {
+            id: 3,
+            title: 'Education',
+            type: 'file',
+            iconKey: AppIcon.Folder,
+            contentKey: FileContent.Education,
+          },
+          {
+            id: 4,
+            title: 'Experience',
+            type: 'file',
+            iconKey: AppIcon.Folder,
+            contentKey: FileContent.Experience,
+          },
+          {
+            id: 5,
+            title: 'Portfolio',
+            type: 'file',
+            iconKey: AppIcon.Folder,
+            contentKey: FileContent.Portfolio,
+          },
+        ],
+      },
+    ],
+  },
+]
+
 export const PROGRAM_ICONS = {
+  [AppIcon.FolderColored]: (props: any) => <FolderIcon color='folder' {...props} />,
   [AppIcon.Folder]: (props: any) => <FolderIcon {...props} />,
   [AppIcon.Calculator]: (props: any) => <CalculateIcon {...props} />,
   [AppIcon.GitHub]: (props: any) => <GitHubIcon {...props} />,
@@ -30,6 +93,9 @@ export const PROGRAM_CONTENTS = {
   [FileContent.Experience]: <Experience />,
   [FileContent.Calculator]: <Calculator />,
   [FileContent.Explorer]: <FileExplorer />,
+  [FileContent.ExplorerInfo]: (
+    <FileExplorer node={FILE_SYSTEM[0].children?.find((n) => n.title === 'Info')} />
+  ),
 }
 
 export const isApp = (item: DesktopItem): item is App => {
@@ -67,7 +133,7 @@ export const APPS: App[] = [
     id: 9,
     title: 'Explorer',
     contentKey: FileContent.Explorer,
-    iconKey: AppIcon.Folder,
+    iconKey: AppIcon.FolderColored,
     position: { x: GRID_SIZE_X * 6, y: 0 },
   },
 ]
@@ -111,64 +177,3 @@ export const FOLDERS: App[] = [
 ]
 
 export const DEFAULT_PROGRAMS: App[] = [...APPS, ...FOLDERS]
-
-export const FILE_SYSTEM: FileSystemNode[] = [
-  {
-    id: 0,
-    name: 'root',
-    type: 'folder',
-    iconKey: AppIcon.Folder,
-    children: [
-      {
-        id: 6,
-        name: 'Calculator',
-        type: 'file',
-        iconKey: AppIcon.Calculator,
-        content: FileContent.Calculator,
-      },
-      {
-        id: 9,
-        name: 'Info',
-        type: 'folder',
-        iconKey: AppIcon.Folder,
-        children: [
-          {
-            id: 1,
-            name: 'About me',
-            type: 'file',
-            iconKey: AppIcon.Folder,
-            content: FileContent.AboutMe,
-          },
-          {
-            id: 2,
-            name: 'Skills',
-            type: 'file',
-            iconKey: AppIcon.Folder,
-            content: FileContent.Skills,
-          },
-          {
-            id: 3,
-            name: 'Education',
-            type: 'file',
-            iconKey: AppIcon.Folder,
-            content: FileContent.Education,
-          },
-          {
-            id: 4,
-            name: 'Experience',
-            type: 'file',
-            iconKey: AppIcon.Folder,
-            content: FileContent.Experience,
-          },
-          {
-            id: 5,
-            name: 'Portfolio',
-            type: 'file',
-            iconKey: AppIcon.Folder,
-            content: FileContent.Portfolio,
-          },
-        ],
-      },
-    ],
-  },
-]
