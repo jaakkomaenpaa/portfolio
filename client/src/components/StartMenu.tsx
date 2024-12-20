@@ -1,12 +1,21 @@
 import { Box, List, ListItemButton, Paper } from '@mui/material'
 import { useWindowStore } from '../stores/WindowStore'
-import { App } from '../types'
+import { DesktopItem } from '../types'
 import { useState } from 'react'
-import { APPS, FOLDERS, PROGRAM_CONTENTS, PROGRAM_ICONS } from '../programs'
+import {
+  APPS,
+  FOLDERS,
+  isApp,
+  isLink,
+  LINKS,
+  PROGRAM_CONTENTS,
+  PROGRAM_ICONS,
+} from '../programs'
 
 enum SubMenu {
   Apps,
   Folders,
+  Links,
   Settings,
 }
 
@@ -27,17 +36,21 @@ const StartMenu = () => {
     setSubmenu(null)
   }
 
-  const handleEntityClick = (entity: App) => {
-    openWindow(entity.title, PROGRAM_CONTENTS[entity.contentKey])
+  const handleItemClick = (item: DesktopItem) => {
+    if (isApp(item)) {
+      openWindow(item.title, PROGRAM_CONTENTS[item.contentKey])
+    } else if (isLink(item)) {
+      window.open(item.url, '_blank')
+    }
   }
 
-  const renderApps = (apps: App[]) => {
+  const renderApps = (apps: DesktopItem[]) => {
     return (
       <List>
-        {apps.map((app: App) => (
+        {apps.map((app: DesktopItem) => (
           <ListItemButton
             key={app.id}
-            onClick={() => handleEntityClick(app)}
+            onClick={() => handleItemClick(app)}
             draggable
             onDragStart={(e) =>
               e.dataTransfer.setData('application/json', JSON.stringify(app))
@@ -79,6 +92,9 @@ const StartMenu = () => {
           <ListItemButton onClick={() => handleOpenSubmenu(SubMenu.Folders)}>
             Folders
           </ListItemButton>
+          <ListItemButton onClick={() => handleOpenSubmenu(SubMenu.Links)}>
+            Links
+          </ListItemButton>
           <ListItemButton onClick={() => handleOpenSubmenu(SubMenu.Settings)}>
             Settings
           </ListItemButton>
@@ -93,6 +109,12 @@ const StartMenu = () => {
         {submenu === SubMenu.Folders && (
           <Paper elevation={8} sx={{ position: 'absolute', left: '100%', top: 0 }}>
             {renderApps(FOLDERS)}
+          </Paper>
+        )}
+
+        {submenu === SubMenu.Links && (
+          <Paper elevation={8} sx={{ position: 'absolute', left: '100%', top: 0 }}>
+            {renderApps(LINKS)}
           </Paper>
         )}
 

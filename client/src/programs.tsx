@@ -1,6 +1,8 @@
-import { AppContent, AppIcon, App } from './types'
+import { AppContent, AppIcon, App, Link, DesktopItem } from './types'
 import FolderIcon from '@mui/icons-material/Folder'
 import CalculateIcon from '@mui/icons-material/Calculate'
+import GitHubIcon from '@mui/icons-material/GitHub'
+import LinkedInIcon from '@mui/icons-material/LinkedIn'
 
 import config from './config'
 import AboutMe from './folders/AboutMe'
@@ -15,6 +17,8 @@ const { GRID_SIZE_X } = config
 export const PROGRAM_ICONS = {
   [AppIcon.Folder]: (props: any) => <FolderIcon {...props} />,
   [AppIcon.Calculator]: (props: any) => <CalculateIcon {...props} />,
+  [AppIcon.GitHub]: (props: any) => <GitHubIcon {...props} />,
+  [AppIcon.LinkedIn]: (props: any) => <LinkedInIcon {...props} />,
 }
 
 export const PROGRAM_CONTENTS = {
@@ -25,6 +29,29 @@ export const PROGRAM_CONTENTS = {
   [AppContent.Experience]: <Experience />,
   [AppContent.Calculator]: <Calculator />,
 }
+
+export const isApp = (item: DesktopItem): item is App => {
+  return (item as App).contentKey !== undefined
+}
+
+export const isLink = (item: DesktopItem): item is Link => {
+  return (item as Link).url !== undefined
+}
+
+export const LINKS: Link[] = [
+  {
+    id: 7,
+    title: 'GitHub',
+    iconKey: AppIcon.GitHub,
+    url: 'https://github.com/jaakkomaenpaa',
+  },
+  {
+    id: 8,
+    title: 'LinkedIn',
+    iconKey: AppIcon.LinkedIn,
+    url: 'https://www.linkedin.com/in/jaakko-mäenpää-37a11a262/',
+  },
+]
 
 export const APPS: App[] = [
   {

@@ -2,9 +2,9 @@ import Draggable from 'react-draggable'
 import { useRef, useState } from 'react'
 import { Box, Menu, MenuItem, styled, Typography } from '@mui/material'
 
-import { App, Position } from '../types'
+import { App, DesktopItem, Position } from '../types'
 import { useDesktopStore } from '../stores/DesktopStore'
-import { PROGRAM_CONTENTS, PROGRAM_ICONS } from '../programs'
+import { isApp, isLink, PROGRAM_CONTENTS, PROGRAM_ICONS } from '../programs'
 import { useWindowStore } from '../stores/WindowStore'
 import config from '../config'
 
@@ -57,7 +57,7 @@ const resolveCollision = (desktopApps: App[], id: number, position: Position) =>
 }
 
 interface DesktopAppProps {
-  app: App
+  app: DesktopItem
 }
 
 const DesktopApp = ({ app }: DesktopAppProps) => {
@@ -82,6 +82,14 @@ const DesktopApp = ({ app }: DesktopAppProps) => {
     setMenuAnchor(null)
   }
 
+  const handleOpenItem = (item: DesktopItem) => {
+    if (isApp(item)) {
+      openWindow(item.title, PROGRAM_CONTENTS[item.contentKey])
+    } else if (isLink(item)) {
+      window.open(item.url, '_blank')
+    }
+  }
+
   return (
     <>
       <Draggable
@@ -100,11 +108,7 @@ const DesktopApp = ({ app }: DesktopAppProps) => {
         }}
       >
         <div ref={appRef} onContextMenu={handleContextMenu}>
-          <AppIcon
-            onDoubleClick={() =>
-              openWindow(app.title, PROGRAM_CONTENTS[app.contentKey])
-            }
-          >
+          <AppIcon onDoubleClick={() => handleOpenItem(app)}>
             {PROGRAM_ICONS[app.iconKey]({ fontSize: 'large' })}
             <Typography variant='body2'>{app.title}</Typography>
           </AppIcon>
@@ -121,7 +125,7 @@ const DesktopApp = ({ app }: DesktopAppProps) => {
       >
         <MenuItem
           onClick={() => {
-            openWindow(app.title, PROGRAM_CONTENTS[app.contentKey])
+            handleOpenItem(app)
             handleCloseMenu()
           }}
         >

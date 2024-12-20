@@ -11,17 +11,26 @@ export interface Position {
   y: number
 }
 
-export interface App {
+export interface DesktopItem {
   id: number
   title: string
   position?: Position
   iconKey: AppIcon
+}
+
+export interface App extends DesktopItem {
   contentKey: AppContent
+}
+
+export interface Link extends DesktopItem {
+  url: string
 }
 
 export enum AppIcon {
   Folder,
   Calculator,
+  GitHub,
+  LinkedIn,
 }
 
 export enum AppContent {
