@@ -40,7 +40,7 @@ export const useDesktopStore = create<DesktopStore>((set, get) => ({
       ...desktopItems,
       { ...item, id: nextId, position: item.position || { x: 0, y: 0 } },
     ]
-    localStorage.setItem('apps', JSON.stringify(updatedItems))
+    localStorage.setItem('desktop', JSON.stringify(updatedItems))
 
     set({
       desktopItems: updatedItems,
@@ -52,7 +52,7 @@ export const useDesktopStore = create<DesktopStore>((set, get) => ({
     const { desktopItems } = get()
 
     const updatedItems = desktopItems.filter((app) => app.id !== id)
-    localStorage.setItem('apps', JSON.stringify(updatedItems))
+    localStorage.setItem('desktop', JSON.stringify(updatedItems))
 
     set({
       desktopItems: updatedItems,

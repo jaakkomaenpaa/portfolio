@@ -3,6 +3,9 @@ import { Box, styled } from '@mui/material'
 import { DesktopItem, FileSystemNode } from '../types'
 import { PROGRAM_ICONS, runProgram } from '../programs'
 import { useWindowStore } from '../stores/WindowStore'
+import ItemContextMenu from './ItemContextMenu'
+import { useContextMenu } from '../hooks/useContextMenu'
+import { useTaskbarStore } from '../stores/TaskbarStore'
 
 interface TaskbarAppProps {
   app: FileSystemNode
@@ -14,15 +17,29 @@ const AppIcon = styled(Box)({
 
 const TaskbarApp = ({ app }: TaskbarAppProps) => {
   const { openWindow } = useWindowStore()
+  const { removeItemFromTaskbar } = useTaskbarStore()
+  const { menuAnchor, openMenu, closeMenu } = useContextMenu()
 
   const handleOpenItem = (item: DesktopItem) => {
     runProgram(item.contentKey, item.type, openWindow)
   }
 
   return (
-    <AppIcon onClick={() => handleOpenItem(app)}>
-      {PROGRAM_ICONS[app.iconKey]({ fontSize: 'large' })}
-    </AppIcon>
+    <>
+      <div onContextMenu={openMenu}>
+        <AppIcon onClick={() => handleOpenItem(app)}>
+          {PROGRAM_ICONS[app.iconKey]({ fontSize: 'large' })}
+        </AppIcon>
+      </div>
+
+      <ItemContextMenu
+        parentItem={app}
+        menuAnchor={menuAnchor}
+        openItem={handleOpenItem}
+        removeItem={removeItemFromTaskbar}
+        closeMenu={closeMenu}
+      />
+    </>
   )
 }
 

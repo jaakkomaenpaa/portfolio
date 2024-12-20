@@ -44,7 +44,6 @@ const Taskbar = () => {
   }, [])
 
   const fileExplorer = FILE_SYSTEM[0]
-  console.log('fileExplorer', fileExplorer)
 
   return (
     <Box

@@ -19,7 +19,7 @@ const getSavedTaskbarItems = (): FileSystemNode[] => {
   return TASKBAR_ITEMS
 }
 
-export const useDesktopStore = create<TaskbarStore>((set, get) => ({
+export const useTaskbarStore = create<TaskbarStore>((set, get) => ({
   taskbarItems: getSavedTaskbarItems(),
   nextId: TASKBAR_ITEMS.length + 1,
 

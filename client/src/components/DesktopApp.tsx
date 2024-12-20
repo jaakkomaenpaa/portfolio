@@ -1,12 +1,14 @@
 import Draggable from 'react-draggable'
-import { useRef, useState } from 'react'
-import { Box, Menu, MenuItem, styled, Typography } from '@mui/material'
+import { useRef } from 'react'
+import { Box, styled, Typography } from '@mui/material'
 
 import { DesktopItem, Position } from '../types'
 import { useDesktopStore } from '../stores/DesktopStore'
 import { PROGRAM_ICONS, runProgram } from '../programs'
 import { useWindowStore } from '../stores/WindowStore'
 import config from '../config'
+import ItemContextMenu from './ItemContextMenu'
+import { useContextMenu } from '../hooks/useContextMenu'
 
 const { GRID_SIZE_X, GRID_SIZE_Y, FOLDER_SIZE, BOUNDS } = config
 
@@ -71,22 +73,7 @@ const DesktopApp = ({ app, draggable }: DesktopAppProps) => {
   const { openWindow } = useWindowStore()
 
   const appRef = useRef<HTMLDivElement>(null)
-  const [menuAnchor, setMenuAnchor] = useState<{
-    mouseX: number
-    mouseY: number
-  } | null>(null)
-
-  const handleContextMenu = (event: React.MouseEvent) => {
-    event.preventDefault()
-    setMenuAnchor({
-      mouseX: event.clientX + 2,
-      mouseY: event.clientY - 6,
-    })
-  }
-
-  const handleCloseMenu = () => {
-    setMenuAnchor(null)
-  }
+  const { menuAnchor, openMenu, closeMenu } = useContextMenu()
 
   const handleOpenItem = (item: DesktopItem) => {
     runProgram(item.contentKey, item.type, openWindow)
@@ -110,39 +97,20 @@ const DesktopApp = ({ app, draggable }: DesktopAppProps) => {
           updateItemPosition(app.id, resolvedPosition)
         }}
       >
-        <div ref={appRef} onContextMenu={handleContextMenu}>
+        <div ref={appRef} onContextMenu={openMenu}>
           <AppIcon onDoubleClick={() => handleOpenItem(app)}>
             {PROGRAM_ICONS[app.iconKey]({ fontSize: 'large' })}
             <Typography variant='body2'>{app.title}</Typography>
           </AppIcon>
         </div>
       </Draggable>
-
-      <Menu
-        open={!!menuAnchor}
-        onClose={handleCloseMenu}
-        anchorReference='anchorPosition'
-        anchorPosition={
-          menuAnchor ? { top: menuAnchor.mouseY, left: menuAnchor.mouseX } : undefined
-        }
-      >
-        <MenuItem
-          onClick={() => {
-            handleOpenItem(app)
-            handleCloseMenu()
-          }}
-        >
-          Open
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            removeItemFromDesktop(app.id)
-            handleCloseMenu()
-          }}
-        >
-          Remove
-        </MenuItem>
-      </Menu>
+      <ItemContextMenu
+        parentItem={app}
+        menuAnchor={menuAnchor}
+        openItem={handleOpenItem}
+        removeItem={removeItemFromDesktop}
+        closeMenu={closeMenu}
+      />
     </>
   )
 }
