@@ -7,27 +7,32 @@ import wallpaperLight from '../assets/resized_light_wallpaper.png'
 import { PaletteMode } from '@mui/material'
 
 const WALLPAPER_DARK = {
+  id: 1,
   name: 'Dark',
   src: wallpaperDark,
 }
 
 const WALLPAPER_LIGHT = {
+  id: 2,
   name: 'Light',
   src: wallpaperLight,
 }
 
 const WALLPAPER_BY_THEME = {
+  id: 3,
   name: 'By theme',
   src: '',
 }
 
 const WALLPAPERS: Wallpaper[] = [
   {
+    id: 0,
     name: 'None',
     src: '',
   },
   WALLPAPER_BY_THEME,
   {
+    id: 4,
     name: 'Pink',
     src: wallpaperPink,
   },

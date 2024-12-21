@@ -90,8 +90,9 @@ const Settings = () => {
         >
           {wallpaperOptions.map((wallpaper: Wallpaper) => (
             <Button
+              key={wallpaper.id}
               variant={
-                selectedWallpaper.name === wallpaper.name ? 'contained' : 'outlined'
+                selectedWallpaper.id === wallpaper.id ? 'contained' : 'outlined'
               }
               sx={{
                 cursor: 'pointer',

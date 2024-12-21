@@ -42,6 +42,7 @@ export enum ProgramType {
 }
 
 export interface Wallpaper {
+  id: number
   name: string
   src: string
 }

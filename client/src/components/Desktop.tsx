@@ -10,12 +10,12 @@ import { DragEvent } from 'react'
 import { useWallpaperStore } from '../stores/WallpaperStore'
 
 const StyledDesktop = styled(Box)(
-  ({ theme, wallpaperSrc }: { theme?: any; wallpaperSrc: string }) => ({
+  ({ theme, wallpaper }: { theme?: any; wallpaper: string }) => ({
     position: 'relative',
     height: '100%',
     width: '100%',
     backgroundColor: theme.palette.background.default,
-    backgroundImage: wallpaperSrc ? `url(${wallpaperSrc})` : 'none',
+    backgroundImage: wallpaper ? `url(${wallpaper})` : 'none',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
@@ -49,7 +49,7 @@ const Desktop = () => {
 
   return (
     <StyledDesktop
-      wallpaperSrc={wallpaper.src}
+      wallpaper={wallpaper.src}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
