@@ -23,11 +23,18 @@ export const FILE_SYSTEM: FileSystemNode[] = [
         contentKey: 'Cmd line',
       },
       {
+        id: 12,
+        title: 'settings',
+        type: ProgramType.App,
+        iconKey: AppIcon.Settings,
+        contentKey: 'Settings',
+      },
+      {
         id: 1,
         title: 'info',
         type: ProgramType.Folder,
         iconKey: AppIcon.Folder,
-        contentKey: '9',
+        contentKey: '1',
         children: [
           {
             id: 2,

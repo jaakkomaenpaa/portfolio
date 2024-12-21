@@ -7,6 +7,7 @@ const { GRID_SIZE_X } = config
 export const PROGRAMS = {
   fileExplorer: FILE_SYSTEM[0],
   commandLine: FILE_SYSTEM[0].children![1],
+  settings: FILE_SYSTEM[0].children![2],
 }
 
 export const DESKTOP_ITEMS = [
@@ -17,7 +18,7 @@ export const DESKTOP_ITEMS = [
     position: { x: 0, y: 0 },
   },
   // Info folder
-  ...FILE_SYSTEM[0].children![2].children!.map(
+  ...FILE_SYSTEM[0].children![3].children!.map(
     (node: FileSystemNode, index: number) => ({
       ...node,
       position: { x: GRID_SIZE_X * (index + 1), y: 0 },

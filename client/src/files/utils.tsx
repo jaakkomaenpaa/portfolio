@@ -6,6 +6,7 @@ import GitHubIcon from '@mui/icons-material/GitHub'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import CodeIcon from '@mui/icons-material/Code'
 import KeyboardCommandKeyIcon from '@mui/icons-material/KeyboardCommandKey'
+import SettingsIcon from '@mui/icons-material/Settings'
 
 import AboutMe from '../folders/AboutMe'
 import Portfolio from '../folders/Portfolio'
@@ -15,6 +16,7 @@ import Experience from '../folders/Experience'
 import Calculator from '../apps/Calculator'
 import FileExplorer from '../programs/FileExplorer'
 import CommandLine from '../programs/CommandLine'
+import Settings from '../programs/Settings'
 
 export const PROGRAM_ICONS = {
   [AppIcon.FolderColored]: (props: any) => <FolderIcon color='folder' {...props} />,
@@ -24,6 +26,7 @@ export const PROGRAM_ICONS = {
   [AppIcon.LinkedIn]: (props: any) => <LinkedInIcon {...props} />,
   [AppIcon.Code]: (props: any) => <CodeIcon {...props} />,
   [AppIcon.CommandKey]: (props: any) => <KeyboardCommandKeyIcon {...props} />,
+  [AppIcon.Settings]: (props: any) => <SettingsIcon {...props} />,
 }
 
 export const APP_CONTENTS: Record<string, ReactNode> = {
@@ -35,6 +38,7 @@ export const APP_CONTENTS: Record<string, ReactNode> = {
   ['Calculator']: <Calculator />,
   ['Explorer']: <FileExplorer />,
   ['Cmd line']: <CommandLine />,
+  ['Settings']: <Settings />,
 }
 
 export const runProgram = (

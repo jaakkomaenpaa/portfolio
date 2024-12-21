@@ -1,48 +1,33 @@
 import { Box, IconButton, Typography } from '@mui/material'
-import { DragEvent, useEffect, useRef, useState } from 'react'
-import MenuIcon from '@mui/icons-material/Menu'
+import { DragEvent, useEffect, useState } from 'react'
+import SettingsIcon from '@mui/icons-material/Settings'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 
-import StartMenu from './StartMenu'
 import config from '../config'
 import TaskbarApp from './TaskbarApp'
 import { useTaskbarStore } from '../stores/TaskbarStore'
 import { FileSystemNode } from '../types'
+import { useWindowStore } from '../stores/WindowStore'
+import { runProgram } from '../files/utils'
+import { PROGRAMS } from '../files/programs'
 
 const { TASKBAR_HEIGHT } = config
 
 const Taskbar = () => {
   const [currentTime, setCurrentTime] = useState<Date>(new Date())
-  const [openMenu, setOpenMenu] = useState(false)
-  const menuRef = useRef<HTMLDivElement | null>(null)
   const { taskbarItems, addItemToTaskbar } = useTaskbarStore()
+  const { openWindow } = useWindowStore()
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000)
     return () => clearInterval(timer)
   }, [])
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        closeMenu()
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [])
-
-  const toggleMenu = () => {
-    setOpenMenu((prev) => !prev)
-  }
-
-  const closeMenu = () => {
-    setOpenMenu(false)
+  const openSettings = () => {
+    const { contentKey, type } = PROGRAMS.settings
+    runProgram(contentKey, type, openWindow)
   }
 
   const handleDrop = (event: DragEvent) => {
@@ -74,16 +59,9 @@ const Taskbar = () => {
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
-      {openMenu && (
-        <div ref={menuRef}>
-          <StartMenu />
-        </div>
-      )}
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <IconButton color='inherit' size='large' onClick={toggleMenu}>
-          <MenuIcon sx={{ fontSize: 32 }} />
-        </IconButton>
-      </Box>
+      <IconButton color='inherit' size='small' onClick={openSettings}>
+        <SettingsIcon sx={{ fontSize: '32px' }} />
+      </IconButton>
 
       <Box
         sx={{
@@ -95,7 +73,9 @@ const Taskbar = () => {
         }}
       >
         {taskbarItems.map((item) => (
-          <TaskbarApp key={item.id} app={item} />
+          <Box sx={{ cursor: 'pointer' }} key={item.id}>
+            <TaskbarApp key={item.id} app={item} />
+          </Box>
         ))}
       </Box>
 

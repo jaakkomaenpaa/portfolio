@@ -1,4 +1,4 @@
-import { Box, Button, CssBaseline, styled, ThemeProvider } from '@mui/material'
+import { Box, CssBaseline, styled, ThemeProvider } from '@mui/material'
 import Taskbar from './components/Taskbar'
 import Desktop from './components/Desktop'
 import { useThemeStore } from './stores/ThemeStore'
@@ -12,7 +12,7 @@ const AppContainer = styled(Box)(() => ({
 }))
 
 const App = () => {
-  const { isDarkMode, toggleTheme } = useThemeStore()
+  const { isDarkMode } = useThemeStore()
 
   useEffect(() => {
     const preventParentScroll = (e: WheelEvent) => {
@@ -36,12 +36,6 @@ const App = () => {
       <AppContainer>
         <Desktop />
         <Taskbar />
-
-        <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
-          <Button variant='contained' onClick={toggleTheme}>
-            Toggle Theme
-          </Button>
-        </Box>
       </AppContainer>
     </ThemeProvider>
   )
