@@ -16,15 +16,17 @@ const WALLPAPER_LIGHT = {
   src: wallpaperLight,
 }
 
+const WALLPAPER_BY_THEME = {
+  name: 'By theme',
+  src: '',
+}
+
 const WALLPAPERS: Wallpaper[] = [
   {
     name: 'None',
     src: '',
   },
-  {
-    name: 'By theme',
-    src: '',
-  },
+  WALLPAPER_BY_THEME,
   {
     name: 'Pink',
     src: wallpaperPink,
@@ -46,7 +48,7 @@ const getSavedWallpaper = (): Wallpaper => {
     return JSON.parse(savedWallpaper)
   }
 
-  return WALLPAPERS[0]
+  return WALLPAPER_BY_THEME
 }
 
 export const useWallpaperStore = create<WallpaperStore>((set) => ({

@@ -17,6 +17,7 @@ const CommandLine = () => {
   const [cwd, setCwd] = useState<FileSystemNode>(root) // Current working directory
   const [output, setOutput] = useState<string[]>([])
   const [command, setCommand] = useState<string>('')
+  const [navigationStack, setNavigationStack] = useState<FileSystemNode[]>([root])
 
   const [commandHistory, setCommandHistory] = useState<string[]>([])
   const [_, setHistoryIndex] = useState<number | null>(null)
@@ -34,10 +35,24 @@ const CommandLine = () => {
     }
   }, [output])
 
+  const handleBack = () => {
+    if (navigationStack.length > 1) {
+      const updatedStack = navigationStack.slice(0, navigationStack.length - 1)
+      setCwd(updatedStack[updatedStack.length - 1])
+      setNavigationStack(updatedStack)
+    }
+  }
+
+  const handleForward = (target: FileSystemNode) => {
+    if (target.type === ProgramType.Folder) {
+      setCwd(target)
+      setNavigationStack((stack) => [...stack, target])
+    }
+  }
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       setOutput((prev) => [...prev, `> ${command}`])
-      executeCommand(command, cwd, setOutput, setCwd, openWindow)
+      executeCommand(command, cwd, setOutput, openWindow, handleForward, handleBack)
       setCommandHistory((prev) => [...prev, command])
       setCommand('')
       setHistoryIndex(null)
@@ -116,10 +131,10 @@ const executeCommand = (
   cmd: string,
   cwd: FileSystemNode,
   setOutput: Dispatch<SetStateAction<string[]>>,
-  setCwd: Dispatch<SetStateAction<FileSystemNode>>,
-  openWindow: (title: string, content: ReactNode) => void
+  openWindow: (title: string, content: ReactNode) => void,
+  handleForward: (target: FileSystemNode) => void,
+  handleBack: () => void
 ) => {
-  console.log('command', cmd)
   const args = cmd.trim().split(/\s+/)
   const command = args[0]
   const param = args[1]
@@ -135,11 +150,15 @@ const executeCommand = (
     },
     ['cd']: () => {
       if (param) {
+        if (param === '..' || param === '.') {
+          handleBack()
+          return
+        }
         const target = cwd.children?.find(
           (child) => child.title.toLowerCase() === param.toLowerCase()
         )
         if (target && target.type === ProgramType.Folder) {
-          setCwd(target)
+          handleForward(target)
         } else {
           setOutput((prev) => [...prev, `Directory "${param}" not found.`])
         }
@@ -147,6 +166,7 @@ const executeCommand = (
         setOutput((prev) => [...prev, 'Usage: cd <directory>'])
       }
     },
+    // Only outputs the content key, since content is usually a React Node
     ['cat']: () => {
       if (param) {
         const target = cwd.children?.find(
