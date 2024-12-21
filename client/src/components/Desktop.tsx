@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { styled } from '@mui/material/styles'
+import { styled, useTheme } from '@mui/material/styles'
 
 import DraggableWindow from './DraggableWindow'
 import { useWindowStore } from '../stores/WindowStore'
@@ -7,21 +7,32 @@ import { DesktopItem } from '../types'
 import { useDesktopStore } from '../stores/DesktopStore'
 import DesktopApp from './DesktopApp'
 import { DragEvent } from 'react'
+import { useWallpaperStore } from '../stores/WallpaperStore'
 
-const StyledDesktop = styled(Box)(({ theme }) => ({
-  position: 'relative',
-  height: '100%',
-  width: '100%',
-  backgroundColor: theme.palette.background.default,
-  display: 'flex',
-  padding: 0,
-  color: theme.palette.text.primary,
-  overflow: 'hidden',
-}))
+const StyledDesktop = styled(Box)(
+  ({ theme, wallpaperSrc }: { theme?: any; wallpaperSrc: string }) => ({
+    position: 'relative',
+    height: '100%',
+    width: '100%',
+    backgroundColor: theme.palette.background.default,
+    backgroundImage: wallpaperSrc ? `url(${wallpaperSrc})` : 'none',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    display: 'flex',
+    padding: 0,
+    color: theme.palette.text.primary,
+    overflow: 'hidden',
+  })
+)
 
 const Desktop = () => {
   const { desktopItems, addItemToDesktop } = useDesktopStore()
   const { windows, closeWindow } = useWindowStore()
+  const { getWallpaper } = useWallpaperStore()
+  const theme = useTheme()
+
+  const wallpaper = getWallpaper(theme.palette.mode)
 
   const handleDrop = (event: DragEvent) => {
     event.preventDefault()
@@ -37,7 +48,11 @@ const Desktop = () => {
   }
 
   return (
-    <StyledDesktop onDrop={handleDrop} onDragOver={handleDragOver}>
+    <StyledDesktop
+      wallpaperSrc={wallpaper.src}
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
+    >
       {desktopItems.map((item: DesktopItem) => (
         <DesktopApp key={item.id} app={item} />
       ))}

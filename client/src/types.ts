@@ -40,3 +40,8 @@ export enum ProgramType {
   Folder,
   Link,
 }
+
+export interface Wallpaper {
+  name: string
+  src: string
+}

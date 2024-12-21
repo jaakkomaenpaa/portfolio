@@ -3,7 +3,7 @@ const GRID_SIZE_Y = 80
 
 const FOLDER_SIZE = 80
 
-const TASKBAR_HEIGHT = 80
+const TASKBAR_HEIGHT = 70
 
 const LEFT_BOUND = 0
 const TOP_BOUND = 0

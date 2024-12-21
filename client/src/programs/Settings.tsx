@@ -8,7 +8,10 @@ import {
   Typography,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+
 import { useThemeStore } from '../stores/ThemeStore'
+import { useWallpaperStore } from '../stores/WallpaperStore'
+import { Wallpaper } from '../types'
 
 const StyledSetting = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -20,6 +23,7 @@ const StyledSetting = styled(Box)(({ theme }) => ({
 
 const Settings = () => {
   const { toggleTheme } = useThemeStore()
+  const { selectedWallpaper, wallpaperOptions, setWallpaper } = useWallpaperStore()
 
   const clearLocalStorage = () => {
     localStorage.clear()
@@ -40,7 +44,6 @@ const Settings = () => {
         <Button
           variant='outlined'
           sx={{
-            color: 'text.primary',
             cursor: 'pointer',
           }}
           onClick={toggleTheme}
@@ -75,19 +78,29 @@ const Settings = () => {
             justifyContent: 'space-between',
           }}
         >
-          <Typography sx={{ color: 'text.primary' }}>Theme</Typography>
+          <Typography sx={{ color: 'text.primary' }}>Wallpaper</Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ backgroundColor: 'background.paper' }}>
-          <Button
-            variant='outlined'
-            sx={{
-              color: 'text.primary',
-              cursor: 'pointer',
-            }}
-            onClick={toggleTheme}
-          >
-            Toggle
-          </Button>
+        <AccordionDetails
+          sx={{
+            backgroundColor: 'background.paper',
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 1,
+          }}
+        >
+          {wallpaperOptions.map((wallpaper: Wallpaper) => (
+            <Button
+              variant={
+                selectedWallpaper.name === wallpaper.name ? 'contained' : 'outlined'
+              }
+              sx={{
+                cursor: 'pointer',
+              }}
+              onClick={() => setWallpaper(wallpaper)}
+            >
+              {wallpaper.name}
+            </Button>
+          ))}
         </AccordionDetails>
       </Accordion>
     </Box>
