@@ -14,7 +14,7 @@ const StyledDesktop = styled(Box)(
     position: 'relative',
     height: '100%',
     width: '100%',
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: 'theme.palette.background.default',
     backgroundImage: wallpaper ? `url(${wallpaper})` : 'none',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',

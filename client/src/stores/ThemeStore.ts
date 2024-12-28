@@ -8,7 +8,7 @@ interface ThemeStore {
 const savedTheme = localStorage.getItem('isDarkMode') === 'true'
 
 export const useThemeStore = create<ThemeStore>((set) => ({
-  isDarkMode: savedTheme || false,
+  isDarkMode: savedTheme || true,
   toggleTheme: () =>
     set((state) => {
       const newMode = !state.isDarkMode
