@@ -19,7 +19,8 @@ export enum AppIcon {
   LinkedIn,
   Code,
   CommandKey,
-  Settings
+  Settings,
+  QuoteMark
 }
 
 export interface FileSystemNode {

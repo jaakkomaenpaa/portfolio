@@ -11,7 +11,9 @@ const RIGHT_BOUND = window.innerWidth - FOLDER_SIZE
 const BOTTOM_BOUND =
   window.innerHeight - FOLDER_SIZE - TASKBAR_HEIGHT + GRID_SIZE_Y / 2
 
-const exports = {
+const RANDOM_ADVICE_URL = 'https://api.adviceslip.com/advice'
+
+export const DIMENSIONS = {
   GRID_SIZE_X,
   GRID_SIZE_Y,
   FOLDER_SIZE,
@@ -24,4 +26,6 @@ const exports = {
   },
 }
 
-export default exports
+export const URLS = {
+  RANDOM_ADVICE_URL,
+}

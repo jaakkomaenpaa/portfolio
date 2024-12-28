@@ -1,8 +1,8 @@
 import { FileSystemNode } from '../types'
-import config from '../config'
+import { DIMENSIONS } from '../config'
 import { FILE_SYSTEM } from './fileSystem'
 
-const { GRID_SIZE_X } = config
+const { GRID_SIZE_X } = DIMENSIONS
 
 export const PROGRAMS = {
   fileExplorer: FILE_SYSTEM[0],

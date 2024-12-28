@@ -10,10 +10,26 @@ export const FILE_SYSTEM: FileSystemNode[] = [
     children: [
       {
         id: 7,
-        title: 'calculator',
-        type: ProgramType.App,
-        iconKey: AppIcon.Calculator,
-        contentKey: 'Calculator',
+        title: 'apps',
+        type: ProgramType.Folder,
+        iconKey: AppIcon.Folder,
+        contentKey: '7',
+        children: [
+          {
+            id: 13,
+            title: 'calculator',
+            type: ProgramType.App,
+            iconKey: AppIcon.Calculator,
+            contentKey: 'Calculator',
+          },
+          {
+            id: 14,
+            title: 'random-advice',
+            type: ProgramType.App,
+            iconKey: AppIcon.QuoteMark,
+            contentKey: 'Random advice',
+          },
+        ],
       },
       {
         id: 11,

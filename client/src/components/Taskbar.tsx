@@ -5,7 +5,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications'
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 
-import config from '../config'
+import { DIMENSIONS } from '../config'
 import TaskbarApp from './TaskbarApp'
 import { useTaskbarStore } from '../stores/TaskbarStore'
 import { FileSystemNode } from '../types'
@@ -13,7 +13,7 @@ import { useWindowStore } from '../stores/WindowStore'
 import { runProgram } from '../files/utils'
 import { PROGRAMS } from '../files/programs'
 
-const { TASKBAR_HEIGHT } = config
+const { TASKBAR_HEIGHT } = DIMENSIONS
 
 const Taskbar = () => {
   const [currentTime, setCurrentTime] = useState<Date>(new Date())

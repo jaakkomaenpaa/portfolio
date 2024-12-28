@@ -6,12 +6,12 @@ import { DesktopItem, Position } from '../types'
 import { useDesktopStore } from '../stores/DesktopStore'
 
 import { useWindowStore } from '../stores/WindowStore'
-import config from '../config'
+import { DIMENSIONS } from '../config'
 import ItemContextMenu from './ItemContextMenu'
 import { useContextMenu } from '../hooks/useContextMenu'
 import { PROGRAM_ICONS, runProgram } from '../files/utils'
 
-const { GRID_SIZE_X, GRID_SIZE_Y, FOLDER_SIZE, BOUNDS } = config
+const { GRID_SIZE_X, GRID_SIZE_Y, FOLDER_SIZE, BOUNDS } = DIMENSIONS
 
 const AppIcon = styled(Box)({
   width: FOLDER_SIZE,
@@ -83,7 +83,6 @@ const DesktopApp = ({ app, draggable }: DesktopAppProps) => {
   return (
     <>
       <Draggable
-        key={app.id}
         nodeRef={appRef}
         position={app.position}
         bounds={BOUNDS}

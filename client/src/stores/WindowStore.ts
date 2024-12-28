@@ -20,15 +20,17 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
       content,
     }
 
+    const updatedWindows = [...windows, newWindow]
     set({
-      windows: [...windows, newWindow],
+      windows: updatedWindows,
       nextId: nextId + 1,
     })
   },
   closeWindow: (id: number) => {
     const { windows } = get()
+    const updatedWindows = windows.filter((window) => window.id !== id)
     set({
-      windows: windows.filter((window) => window.id !== id),
+      windows: updatedWindows,
     })
   },
 }))

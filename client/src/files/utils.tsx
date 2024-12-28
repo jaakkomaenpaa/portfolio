@@ -17,6 +17,8 @@ import Calculator from '../apps/Calculator'
 import FileExplorer from '../programs/FileExplorer'
 import CommandLine from '../programs/CommandLine'
 import Settings from '../programs/Settings'
+import RandomAdvice from '../apps/RandomAdvice'
+import FormatQuoteIcon from '@mui/icons-material/FormatQuote'
 
 export const PROGRAM_ICONS = {
   [AppIcon.FolderColored]: (props: any) => <FolderIcon color='folder' {...props} />,
@@ -27,6 +29,7 @@ export const PROGRAM_ICONS = {
   [AppIcon.Code]: (props: any) => <CodeIcon {...props} />,
   [AppIcon.CommandKey]: (props: any) => <KeyboardCommandKeyIcon {...props} />,
   [AppIcon.Settings]: (props: any) => <SettingsIcon {...props} />,
+  [AppIcon.QuoteMark]: (props: any) => <FormatQuoteIcon {...props} />,
 }
 
 export const APP_CONTENTS: Record<string, ReactNode> = {
@@ -39,6 +42,7 @@ export const APP_CONTENTS: Record<string, ReactNode> = {
   ['Explorer']: <FileExplorer />,
   ['Cmd line']: <CommandLine />,
   ['Settings']: <Settings />,
+  ['Random advice']: <RandomAdvice />,
 }
 
 export const runProgram = (
