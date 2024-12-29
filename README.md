@@ -2,12 +2,11 @@
 
 ## General
 
-This is my portfolio project. It resembles an OS and contains folders, which display information about me, similar to a CV.
+This is my portfolio project. It resembles an OS and contains folders and files which display information about me, similarly to a CV.
 
-Currently running at https://gxgb9f3n-5173.euw.devtunnels.ms. This is a developer tunnel, so a warning screen is shown when visited the first time. 
-Obtaining an actual domain is under progress.
+Running at https://jaakko.maenpaa.info. Https certificate obtained through Certbot.
 
-## Installation
+## Running locally
 
 ### Prerequisites
 
@@ -16,7 +15,7 @@ Obtaining an actual domain is under progress.
 - **Vite**: Version 6.0.1 or higher
 
 Lower versions can work as well, but these are the versions this project uses.
-Updgrade if your package manager warns about it.
+Upgrade if your package manager warns about it.
 
 ### Steps
 
