@@ -21,7 +21,7 @@ const TaskbarApp = ({ app }: TaskbarAppProps) => {
   const { menuAnchor, openMenu, closeMenu } = useContextMenu()
 
   const handleOpenItem = (item: DesktopItem) => {
-    runProgram(item.contentKey, item.type, openWindow)
+    runProgram(item, openWindow)
   }
 
   return (

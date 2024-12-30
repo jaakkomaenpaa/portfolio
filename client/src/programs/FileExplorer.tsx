@@ -6,6 +6,7 @@ import { FileSystemNode, ProgramType } from '../types'
 import { useWindowStore } from '../stores/WindowStore'
 import { FILE_SYSTEM } from '../files/fileSystem'
 import { runProgram } from '../files/utils'
+import { PROGRAMS } from '../files/programs'
 
 interface FileExplorerItemProps {
   node: FileSystemNode
@@ -21,7 +22,7 @@ const FileExplorerItem = ({ node }: FileExplorerItemProps) => {
       sx={{ display: 'flex', gap: 1 }}
     >
       {node.type === ProgramType.Folder ? '📁' : '📄'}
-      {node.title}
+      {node.fileName}
     </Box>
   )
 }
@@ -31,7 +32,12 @@ interface FileExplorerProps {
 }
 
 const FileExplorer = ({ nodeId }: FileExplorerProps) => {
-  const stack = getNavigationStack(FILE_SYSTEM, nodeId || FILE_SYSTEM[0].id, [])
+  const stack = getNavigationStack(
+    FILE_SYSTEM,
+    nodeId ?? PROGRAMS.fileExplorer.id,
+    []
+  )
+
   const [navigationStack, setNavigationStack] = useState<FileSystemNode[]>(stack)
 
   const { openWindow } = useWindowStore()
@@ -48,7 +54,7 @@ const FileExplorer = ({ nodeId }: FileExplorerProps) => {
     if (node.type === ProgramType.Folder) {
       setNavigationStack((stack) => [...stack, node])
     } else {
-      runProgram(node.contentKey, node.type, openWindow)
+      runProgram(node, openWindow)
     }
   }
 
@@ -80,19 +86,21 @@ const getNavigationStack = (
   currentStack: FileSystemNode[]
 ): FileSystemNode[] => {
   for (const node of fileSystem) {
+    if (!node.children) {
+      continue
+    }
+
     const newStack = [...currentStack, node]
 
     if (node.id === targetNodeId) {
       return newStack
     }
 
-    if (node.children) {
-      const stack = getNavigationStack(node.children, targetNodeId, newStack)
-      if (stack) {
-        return stack
-      }
+    const result = getNavigationStack(node.children, targetNodeId, newStack)
+    if (result.length > 0) {
+      return result
     }
   }
 
-  return [FILE_SYSTEM[0]]
+  return []
 }

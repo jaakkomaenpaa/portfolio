@@ -26,8 +26,7 @@ const Taskbar = () => {
   }, [])
 
   const openSettings = () => {
-    const { contentKey, type } = PROGRAMS.settings
-    runProgram(contentKey, type, openWindow)
+    runProgram(PROGRAMS.settings, openWindow)
   }
 
   const handleDrop = (event: DragEvent) => {

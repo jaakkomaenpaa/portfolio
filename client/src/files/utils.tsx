@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { AppIcon, ProgramType } from '../types'
+import { AppIcon, FileSystemNode, ProgramType } from '../types'
 import FolderIcon from '@mui/icons-material/Folder'
 import CalculateIcon from '@mui/icons-material/Calculate'
 import GitHubIcon from '@mui/icons-material/GitHub'
@@ -19,8 +19,9 @@ import CommandLine from '../programs/CommandLine'
 import Settings from '../programs/Settings'
 import RandomAdvice from '../apps/RandomAdvice'
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote'
+import { PROGRAMS } from './programs'
 
-export const PROGRAM_ICONS = {
+export const PROGRAM_ICONS: Record<AppIcon, (props: any) => ReactNode> = {
   [AppIcon.FolderColored]: (props: any) => <FolderIcon color='folder' {...props} />,
   [AppIcon.Folder]: (props: any) => <FolderIcon {...props} />,
   [AppIcon.Calculator]: (props: any) => <CalculateIcon {...props} />,
@@ -46,22 +47,24 @@ export const APP_CONTENTS: Record<string, ReactNode> = {
 }
 
 export const runProgram = (
-  key: string,
-  programType: ProgramType,
+  item: FileSystemNode,
   openWindow?: (title: string, content: ReactNode) => void
 ) => {
-  if (programType === ProgramType.Link) {
+  if (item.type === ProgramType.Link) {
     // Key should be an url
-    window.open(key, '_blank')
-  } else if (programType === ProgramType.App) {
+    window.open(item.contentKey, '_blank')
+  } else if (item.type === ProgramType.App) {
     // Key should be the program title
     if (openWindow) {
-      openWindow(key, APP_CONTENTS[key])
+      openWindow(item.title, APP_CONTENTS[item.contentKey])
     }
-  } else if (programType === ProgramType.Folder) {
+  } else if (item.type === ProgramType.Folder) {
     // Key should be an string representation of a node id
     if (openWindow) {
-      openWindow('Explorer', <FileExplorer nodeId={parseInt(key)} />)
+      openWindow(
+        PROGRAMS.fileExplorer.title,
+        <FileExplorer nodeId={parseInt(item.contentKey)} />
+      )
     }
   }
 }

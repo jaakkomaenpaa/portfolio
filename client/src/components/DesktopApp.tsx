@@ -77,7 +77,7 @@ const DesktopApp = ({ app, draggable }: DesktopAppProps) => {
   const { menuAnchor, openMenu, closeMenu } = useContextMenu()
 
   const handleOpenItem = (item: DesktopItem) => {
-    runProgram(item.contentKey, item.type, openWindow)
+    runProgram(item, openWindow)
   }
 
   return (
@@ -100,7 +100,7 @@ const DesktopApp = ({ app, draggable }: DesktopAppProps) => {
         <div ref={appRef} onContextMenu={openMenu}>
           <AppIcon onDoubleClick={() => handleOpenItem(app)}>
             {PROGRAM_ICONS[app.iconKey]({ fontSize: 'large' })}
-            <Typography variant='body2'>{app.title}</Typography>
+            <Typography variant='body2'>{app.fileName}</Typography>
           </AppIcon>
         </div>
       </Draggable>

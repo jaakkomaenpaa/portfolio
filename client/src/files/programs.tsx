@@ -6,15 +6,15 @@ const { GRID_SIZE_X } = DIMENSIONS
 
 export const PROGRAMS = {
   fileExplorer: FILE_SYSTEM[0],
-  commandLine: FILE_SYSTEM[0].children![1],
-  settings: FILE_SYSTEM[0].children![2],
+  commandLine: FILE_SYSTEM[0].children![0],
+  settings: FILE_SYSTEM[0].children![1],
 }
 
 export const DESKTOP_ITEMS = [
   // Root
   {
     ...PROGRAMS.fileExplorer,
-    title: 'explorer',
+    fileName: 'explorer',
     position: { x: 0, y: 0 },
   },
   // Info folder

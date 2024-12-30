@@ -187,7 +187,7 @@ const executeCommand = (
           (child) => child.title.toLowerCase() === param.toLowerCase()
         )
         if (target) {
-          runProgram(target.contentKey, target.type, openWindow)
+          runProgram(target, openWindow)
         } else {
           setOutput((prev) => [...prev, `Directory or file "${param}" not found.`])
         }
