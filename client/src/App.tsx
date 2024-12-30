@@ -4,6 +4,7 @@ import Desktop from './components/Desktop'
 import { useThemeStore } from './stores/ThemeStore'
 import { darkTheme, lightTheme } from './theme'
 import { useEffect } from 'react'
+import MobileWarning from './components/MobileWarning'
 
 const AppContainer = styled(Box)(() => ({
   display: 'flex',
@@ -33,6 +34,7 @@ const App = () => {
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <CssBaseline />
+      <MobileWarning />
       <AppContainer>
         <Desktop />
         <Taskbar />
