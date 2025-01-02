@@ -1,13 +1,13 @@
 import { create } from 'zustand'
+import { v4 as uuidv4 } from 'uuid'
 import { Position, DesktopItem } from '../types'
 import { DESKTOP_ITEMS } from '../files/programs'
 
 interface DesktopStore {
   desktopItems: DesktopItem[]
-  nextId: number
-  updateItemPosition: (id: number, position: Position) => void
+  updateItemPosition: (id: string, position: Position) => void
   addItemToDesktop: (item: DesktopItem) => void
-  removeItemFromDesktop: (id: number) => void
+  removeItemFromDesktop: (id: string) => void
 }
 
 const getSavedDesktopItems = (): DesktopItem[] => {
@@ -22,12 +22,10 @@ const getSavedDesktopItems = (): DesktopItem[] => {
 
 export const useDesktopStore = create<DesktopStore>((set, get) => ({
   desktopItems: getSavedDesktopItems(),
-  nextId: DESKTOP_ITEMS.length + 1,
-
-  updateItemPosition: (id: number, position: Position) =>
+  updateItemPosition: (id: string, position: Position) =>
     set((state) => {
-      const updatedItems = state.desktopItems.map((entity) =>
-        entity.id === id ? { ...entity, position } : entity
+      const updatedItems = state.desktopItems.map((item) =>
+        item.id === id ? { ...item, position } : item
       )
 
       localStorage.setItem('desktop', JSON.stringify(updatedItems))
@@ -35,20 +33,19 @@ export const useDesktopStore = create<DesktopStore>((set, get) => ({
     }),
 
   addItemToDesktop: (item: DesktopItem) => {
-    const { desktopItems, nextId } = get()
+    const { desktopItems } = get()
     const updatedItems = [
       ...desktopItems,
-      { ...item, id: nextId, position: item.position || { x: 0, y: 0 } },
+      { ...item, id: uuidv4(), position: item.position || { x: 0, y: 0 } },
     ]
     localStorage.setItem('desktop', JSON.stringify(updatedItems))
 
     set({
       desktopItems: updatedItems,
-      nextId: nextId + 1,
     })
   },
 
-  removeItemFromDesktop: (id: number) => {
+  removeItemFromDesktop: (id: string) => {
     const { desktopItems } = get()
 
     const updatedItems = desktopItems.filter((app) => app.id !== id)

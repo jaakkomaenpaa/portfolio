@@ -24,7 +24,7 @@ export enum AppIcon {
 }
 
 export interface FileSystemNode {
-  id: number
+  id: string
   fileName: string
   title: string
   iconKey: AppIcon

@@ -59,11 +59,11 @@ export const runProgram = (
       openWindow(item.title, APP_CONTENTS[item.contentKey])
     }
   } else if (item.type === ProgramType.Folder) {
-    // Key should be an string representation of a node id
+    // Key should be the item id
     if (openWindow) {
       openWindow(
         PROGRAMS.fileExplorer.title,
-        <FileExplorer nodeId={parseInt(item.contentKey)} />
+        <FileExplorer nodeId={item.contentKey} />
       )
     }
   }

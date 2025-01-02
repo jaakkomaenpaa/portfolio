@@ -8,6 +8,7 @@ import { useDesktopStore } from '../stores/DesktopStore'
 import DesktopApp from './DesktopApp'
 import { DragEvent } from 'react'
 import { useWallpaperStore } from '../stores/WallpaperStore'
+import { resolveDesktopItemPosition } from '../utils'
 
 const StyledDesktop = styled(Box)(
   ({ theme, wallpaper }: { theme?: any; wallpaper: string }) => ({
@@ -39,7 +40,13 @@ const Desktop = () => {
     const itemData = event.dataTransfer?.getData('application/json')
     if (itemData) {
       const item: DesktopItem = JSON.parse(itemData)
-      addItemToDesktop({ ...item, position: { x: event.clientX, y: event.clientY } })
+
+      const resolvedPosition = resolveDesktopItemPosition(desktopItems, item.id, {
+        x: event.clientX,
+        y: event.clientY,
+      })
+
+      addItemToDesktop({ ...item, position: resolvedPosition })
     }
   }
 

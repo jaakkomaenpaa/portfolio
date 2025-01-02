@@ -28,7 +28,7 @@ const FileExplorerItem = ({ node }: FileExplorerItemProps) => {
 }
 
 interface FileExplorerProps {
-  nodeId?: number
+  nodeId?: string
 }
 
 const FileExplorer = ({ nodeId }: FileExplorerProps) => {
@@ -82,7 +82,7 @@ export default FileExplorer
 // Fine for small file tree, but could be optimized for larger system
 const getNavigationStack = (
   fileSystem: FileSystemNode[],
-  targetNodeId: number,
+  targetNodeId: string,
   currentStack: FileSystemNode[]
 ): FileSystemNode[] => {
   for (const node of fileSystem) {

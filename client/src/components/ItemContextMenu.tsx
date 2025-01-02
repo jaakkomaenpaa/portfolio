@@ -6,7 +6,7 @@ interface ItemContextMenuProps {
   parentItem: FileSystemNode
   menuAnchor: { mouseX: number; mouseY: number } | null
   openItem: (item: FileSystemNode) => void
-  removeItem: (id: number) => void
+  removeItem: (id: string) => void
   closeMenu: () => void
 }
 

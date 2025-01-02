@@ -2,7 +2,7 @@ import Draggable from 'react-draggable'
 import { useRef } from 'react'
 import { Box, styled, Typography } from '@mui/material'
 
-import { DesktopItem, Position } from '../types'
+import { DesktopItem } from '../types'
 import { useDesktopStore } from '../stores/DesktopStore'
 
 import { useWindowStore } from '../stores/WindowStore'
@@ -10,8 +10,9 @@ import { DIMENSIONS } from '../config'
 import ItemContextMenu from './ItemContextMenu'
 import { useContextMenu } from '../hooks/useContextMenu'
 import { PROGRAM_ICONS, runProgram } from '../files/utils'
+import { resolveDesktopItemPosition } from '../utils'
 
-const { GRID_SIZE_X, GRID_SIZE_Y, FOLDER_SIZE, BOUNDS } = DIMENSIONS
+const { FOLDER_SIZE, BOUNDS } = DIMENSIONS
 
 const AppIcon = styled(Box)({
   width: FOLDER_SIZE,
@@ -24,44 +25,6 @@ const AppIcon = styled(Box)({
   cursor: 'pointer',
   '&:hover': { opacity: 0.8 },
 })
-
-const snapToGrid = (x: number, y: number) => ({
-  x: Math.round(x / GRID_SIZE_X) * GRID_SIZE_X,
-  y: Math.round(y / GRID_SIZE_Y) * GRID_SIZE_Y,
-})
-
-const isColliding = (pos1: Position, pos2: Position) => {
-  return (
-    pos1.x < pos2.x + FOLDER_SIZE &&
-    pos1.x + FOLDER_SIZE > pos2.x &&
-    pos1.y < pos2.y + FOLDER_SIZE &&
-    pos1.y + FOLDER_SIZE > pos2.y
-  )
-}
-
-const resolveCollision = (
-  desktopItems: DesktopItem[],
-  id: number,
-  position: Position
-) => {
-  const adjustedPosition = { ...position }
-
-  while (
-    desktopItems.some(
-      (item: DesktopItem) =>
-        // Position should always exist at this point
-        item.id !== id && isColliding(item.position!, adjustedPosition)
-    )
-  ) {
-    adjustedPosition.x += FOLDER_SIZE
-    if (adjustedPosition.x > window.innerWidth - FOLDER_SIZE) {
-      adjustedPosition.x = 0
-      adjustedPosition.y += FOLDER_SIZE
-    }
-  }
-
-  return adjustedPosition
-}
 
 interface DesktopAppProps {
   app: DesktopItem
@@ -88,12 +51,10 @@ const DesktopApp = ({ app, draggable }: DesktopAppProps) => {
         bounds={BOUNDS}
         disabled={draggable}
         onStop={(_, data) => {
-          const snappedPosition = snapToGrid(data.x, data.y)
-          const resolvedPosition = resolveCollision(
-            desktopItems,
-            app.id,
-            snappedPosition
-          )
+          const resolvedPosition = resolveDesktopItemPosition(desktopItems, app.id, {
+            x: data.x,
+            y: data.y,
+          })
           updateItemPosition(app.id, resolvedPosition)
         }}
       >
