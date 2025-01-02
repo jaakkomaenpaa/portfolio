@@ -61,7 +61,9 @@ const DesktopApp = ({ app, draggable }: DesktopAppProps) => {
         <div ref={appRef} onContextMenu={openMenu}>
           <AppIcon onDoubleClick={() => handleOpenItem(app)}>
             {PROGRAM_ICONS[app.iconKey]({ fontSize: 'large' })}
-            <Typography variant='body2'>{app.fileName}</Typography>
+            <Typography variant='body2' sx={{ textAlign: 'center' }}>
+              {app.fileName}
+            </Typography>
           </AppIcon>
         </div>
       </Draggable>

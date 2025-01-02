@@ -12,7 +12,7 @@ interface RandomAdviceResponse {
 }
 
 const RandomAdvice = () => {
-  const [currentAdvice, setCurrentAdvice] = useState<string>('text')
+  const [currentAdvice, setCurrentAdvice] = useState<string>('')
 
   const handleGetAdvice = async () => {
     const response = await axios.get(URLS.RANDOM_ADVICE_URL)
@@ -25,7 +25,7 @@ const RandomAdvice = () => {
   }
 
   return (
-    <Box sx={{ padding: '12px' }}>
+    <Box sx={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <Typography variant='body1'>{currentAdvice}</Typography>
       <Button variant='outlined' onClick={handleGetAdvice}>
         Get advice
