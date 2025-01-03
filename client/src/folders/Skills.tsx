@@ -5,7 +5,7 @@ const Skills = () => {
     <Box sx={{ padding: '16px' }}>
       <Typography sx={{ mb: 1, color: 'text.secondary' }}>Background</Typography>
       <Typography sx={{ mb: 3 }} variant='body1'>
-        First started to take interest on programming in January 2022 through
+        First started to gain interest in programming in January 2022 through
         university courses.
       </Typography>
       <Typography sx={{ mb: 1, color: 'text.secondary' }}>Technologies</Typography>

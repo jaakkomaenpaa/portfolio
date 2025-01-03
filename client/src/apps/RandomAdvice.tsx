@@ -25,7 +25,9 @@ const RandomAdvice = () => {
   }
 
   return (
-    <Box sx={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+    <Box
+      sx={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }}
+    >
       <Typography variant='body1'>{currentAdvice}</Typography>
       <Button variant='outlined' onClick={handleGetAdvice}>
         Get advice
