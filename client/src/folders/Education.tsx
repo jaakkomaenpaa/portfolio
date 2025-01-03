@@ -1,11 +1,26 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Typography,
-  Box,
-} from '@mui/material'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { Typography, Box, styled } from '@mui/material'
+
+const InfoSection = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 14,
+  backgroundColor: theme.palette.background.paper,
+  padding: 16,
+}))
+
+const TextRow = styled(Box)({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  textAlign: 'right',
+})
+
+const TextSection = styled(Box)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 6,
+}))
 
 const Education = () => {
   return (
@@ -13,166 +28,70 @@ const Education = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 0.5,
+        gap: 1,
         padding: '16px',
         width: '500px',
+        maxHeight: '80vh',
+        overflowY: 'auto',
       }}
     >
-      <Accordion defaultExpanded>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls='status-content'
-          id='status-header'
-          sx={{ backgroundColor: 'background.paper' }}
-        >
-          <Typography sx={{ color: 'text.primary' }}>General</Typography>
-        </AccordionSummary>
-        <AccordionDetails
-          sx={{
-            backgroundColor: 'background.paper',
-            color: 'text.secondary',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 1,
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-          >
+      <InfoSection>
+        <Typography>General</Typography>
+        <TextSection>
+          <TextRow>
             <Typography>School:</Typography>
             <Typography>Tampere University</Typography>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-          >
+          </TextRow>
+          <TextRow>
             <Typography>Field of Study:</Typography>
             <Typography>Information and Knowledge Management</Typography>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-          >
+          </TextRow>
+          <TextRow>
+            <Typography>Title:</Typography>
+            <Typography>Bachelor of Science (Technology)</Typography>
+          </TextRow>
+          <TextRow>
             <Typography>Credits:</Typography>
             <Typography>222 / 300</Typography>
-          </Box>
-        </AccordionDetails>
-      </Accordion>
+          </TextRow>
+        </TextSection>
+      </InfoSection>
 
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls='bachelors-content'
-          id='bachelors-header'
-          sx={{ backgroundColor: 'background.paper' }}
-        >
-          <Typography sx={{ color: 'text.primary' }}>Bachelor's</Typography>
-        </AccordionSummary>
-        <AccordionDetails
-          sx={{
-            backgroundColor: 'background.paper',
-            color: 'text.secondary',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 1,
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-          >
+      <InfoSection>
+        <Typography>Bachelor's ✅</Typography>
+        <TextSection>
+          <TextRow>
             <Typography>Graduated:</Typography>
             <Typography>May 2024</Typography>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              textAlign: 'right',
-            }}
-          >
+          </TextRow>
+          <TextRow>
             <Typography>Major:</Typography>
             <Typography>Information and Knowledge Management</Typography>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-          >
+          </TextRow>
+          <TextRow>
             <Typography>Minor:</Typography>
             <Typography>Software systems</Typography>
-          </Box>
-        </AccordionDetails>
-      </Accordion>
+          </TextRow>
+        </TextSection>
+      </InfoSection>
 
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls='masters-content'
-          id='masters-header'
-          sx={{ backgroundColor: 'background.paper' }}
-        >
-          <Typography sx={{ color: 'text.primary' }}>Master's</Typography>
-        </AccordionSummary>
-        <AccordionDetails
-          sx={{
-            backgroundColor: 'background.paper',
-            color: 'text.secondary',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 1,
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-          >
+      <InfoSection>
+        <Typography>Master's ⌛</Typography>
+        <TextSection>
+          <TextRow>
             <Typography>Graduation:</Typography>
             <Typography>May 2026 (projected)</Typography>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              textAlign: 'right',
-            }}
-          >
+          </TextRow>
+          <TextRow>
             <Typography>Major:</Typography>
             <Typography>Information Systems Management</Typography>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              textAlign: 'right',
-            }}
-          >
+          </TextRow>
+          <TextRow>
             <Typography>Minor:</Typography>
             <Typography>Advanced studies in Software Engineering</Typography>
-          </Box>
-        </AccordionDetails>
-      </Accordion>
+          </TextRow>
+        </TextSection>
+      </InfoSection>
     </Box>
   )
 }
