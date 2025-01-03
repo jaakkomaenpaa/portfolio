@@ -107,7 +107,7 @@ const CommandLine = () => {
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Typography sx={{ mr: 1, flexShrink: 0, fontFamily: 'monospace' }}>
-          {cwd.title}
+          {cwd.fileName}
           {' $'}
         </Typography>
         <TextField
@@ -142,7 +142,7 @@ const executeCommand = (
   const actions: Record<string, () => void> = {
     ['ls']: () => {
       if (cwd.children) {
-        const files = cwd.children.map((child) => child.title).join('\n')
+        const files = cwd.children.map((child) => child.fileName).join('\n')
         setOutput((prev) => [...prev, files])
       } else {
         setOutput((prev) => [...prev, 'No files or folders found.'])
@@ -155,7 +155,7 @@ const executeCommand = (
           return
         }
         const target = cwd.children?.find(
-          (child) => child.title.toLowerCase() === param.toLowerCase()
+          (child) => child.fileName.toLowerCase() === param.toLowerCase()
         )
         if (target && target.type === ProgramType.Folder) {
           handleForward(target)
@@ -170,7 +170,7 @@ const executeCommand = (
     ['cat']: () => {
       if (param) {
         const target = cwd.children?.find(
-          (child) => child.title.toLowerCase() === param.toLowerCase()
+          (child) => child.fileName.toLowerCase() === param.toLowerCase()
         )
         if (target && target.type === ProgramType.App) {
           setOutput((prev) => [...prev, target.contentKey])
@@ -184,7 +184,7 @@ const executeCommand = (
     ['open']: () => {
       if (param) {
         const target = cwd.children?.find(
-          (child) => child.title.toLowerCase() === param.toLowerCase()
+          (child) => child.fileName.toLowerCase() === param.toLowerCase()
         )
         if (target) {
           runProgram(target, openWindow)
