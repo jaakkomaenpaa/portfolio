@@ -28,7 +28,7 @@ export const FILE_SYSTEM: FileSystemNode[] = [
       },
       {
         id: 'b35f24ca-14db-4979-9e33-f43b1dd17c83',
-        fileName: 'portfolio',
+        fileName: 'README',
         title: 'Portfolio',
         type: ProgramType.App,
         iconKey: AppIcon.File,

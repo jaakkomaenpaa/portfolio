@@ -14,7 +14,8 @@ const Portfolio = () => {
       >
         <Typography>
           This is a web application that I have set up to showcase my programming
-          skills. It is built with React, TypeScript and Material UI.
+          skills and display information about me. It is built with React, TypeScript
+          and Material UI.
         </Typography>
         <Typography>
           The app mimics an OS with a file system, where the user can navigate through
@@ -23,11 +24,8 @@ const Portfolio = () => {
         </Typography>
         <Typography>
           Desktop view can be customized by dragging new items from the explorer or by
-          moving existing ones around.
-        </Typography>
-        <Typography>
-          Customizations are saved to local storage, which can be easily cleared from
-          settings.
+          moving existing ones around. Customizations are saved to local storage,
+          which can be easily cleared from settings.
         </Typography>
       </Box>
     </Box>
