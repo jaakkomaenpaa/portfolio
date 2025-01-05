@@ -4,8 +4,8 @@ import Desktop from './components/Desktop'
 import { useThemeStore } from './stores/ThemeStore'
 import { darkTheme, lightTheme } from './theme'
 import MobileWarning from './components/MobileWarning'
-import { useState } from 'react'
-import Notification from './components/Notification'
+import Notification from './components/NotificationWindow'
+import { useNotificationStore } from './stores/NotificationStore'
 
 const AppContainer = styled(Box)(() => ({
   display: 'flex',
@@ -15,11 +15,7 @@ const AppContainer = styled(Box)(() => ({
 
 const App = () => {
   const { isDarkMode } = useThemeStore()
-  const [notifications, setNotifications] = useState<string[]>([])
-
-  const removeNotification = (index: number) => {
-    setNotifications((prev) => prev.filter((_, i) => i !== index))
-  }
+  const { activeNotifications, closeNotification } = useNotificationStore()
 
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
@@ -29,11 +25,11 @@ const App = () => {
         <Desktop />
         <Taskbar />
 
-        {notifications.map((message, index) => (
+        {activeNotifications.map((notification, index) => (
           <Notification
             key={index}
-            message={message}
-            onClose={() => removeNotification(index)}
+            message={notification.message}
+            onClose={() => closeNotification(notification.id)}
           />
         ))}
       </AppContainer>

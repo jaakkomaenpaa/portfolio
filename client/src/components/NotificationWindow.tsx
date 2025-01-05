@@ -24,12 +24,12 @@ const NotificationContainer = styled(Box)(({ theme }) => ({
   },
 }))
 
-interface NotificationProps {
+interface NotificationWindowProps {
   message: string
   onClose: () => void
 }
 
-const Notification = ({ message, onClose }: NotificationProps) => {
+const NotificationWindow = ({ message, onClose }: NotificationWindowProps) => {
   useEffect(() => {
     const timer = setTimeout(onClose, 10000)
     return () => clearTimeout(timer)
@@ -45,4 +45,4 @@ const Notification = ({ message, onClose }: NotificationProps) => {
   )
 }
 
-export default Notification
+export default NotificationWindow

@@ -1,6 +1,6 @@
 import { Box, Divider, IconButton, styled, Typography } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import { useState } from 'react'
+import { useNotificationStore } from '../stores/NotificationStore'
 
 const NotificationBarContainer = styled(Box)(({ theme }) => ({
   position: 'fixed',
@@ -25,22 +25,13 @@ const NotificationItem = styled(Box)(({ theme }) => ({
   gap: '8px',
 }))
 
-interface Notification {
-  id: number
-  message: string
-}
-
 interface NotificationBarProps {
   open: boolean
   toggleOpen: () => void
 }
 
 const NotificationBar = ({ open, toggleOpen }: NotificationBarProps) => {
-  const [notifications, setNotifications] = useState<Notification[]>([
-    { id: 1, message: 'You have a new message.' },
-    { id: 2, message: 'Your update was successful.' },
-    { id: 3, message: 'A new task was assigned to you.' },
-  ])
+  const { notifications } = useNotificationStore()
 
   if (!open) return <NotificationBarContainer />
 

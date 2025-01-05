@@ -21,7 +21,7 @@ export enum AppIcon {
   CommandKey,
   Settings,
   QuoteMark,
-  Contacts
+  Contacts,
 }
 
 export interface FileSystemNode {
@@ -48,4 +48,9 @@ export interface Wallpaper {
   id: number
   name: string
   src: string
+}
+
+export interface Notification {
+  id: number
+  message: string
 }
