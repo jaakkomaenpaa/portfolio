@@ -4,13 +4,20 @@ const Portfolio = () => {
   return (
     <Box sx={{ padding: '16px' }}>
       <Typography sx={{ mb: 2 }}>Welcome to my portfolio!</Typography>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2,
+          color: 'text.secondary',
+        }}
+      >
         <Typography>
-          This is a web application that I have built to showcase my programming
+          This is a web application that I have set up to showcase my programming
           skills. It is built with React, TypeScript and Material UI.
         </Typography>
         <Typography>
-          The app mimics an OS with a file system, where you can navigate through
+          The app mimics an OS with a file system, where the user can navigate through
           different folders and files. This can be done via the file explorer or the
           command line.
         </Typography>
