@@ -12,11 +12,13 @@ import { FileSystemNode } from '../types'
 import { useWindowStore } from '../stores/WindowStore'
 import { runProgram } from '../system/utils'
 import { PROGRAMS } from '../system/programs'
+import NotificationBar from './NotificationBar'
 
 const { TASKBAR_HEIGHT } = DIMENSIONS
 
 const Taskbar = () => {
   const [currentTime, setCurrentTime] = useState<Date>(new Date())
+  const [notificationsOpen, setNotificationsOpen] = useState<boolean>(false)
   const { taskbarItems, addItemToTaskbar } = useTaskbarStore()
   const { openWindow } = useWindowStore()
 
@@ -24,6 +26,10 @@ const Taskbar = () => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000)
     return () => clearInterval(timer)
   }, [])
+
+  const toggleNotifications = () => {
+    setNotificationsOpen(!notificationsOpen)
+  }
 
   const openSettings = () => {
     runProgram(PROGRAMS.settings, openWindow)
@@ -79,10 +85,10 @@ const Taskbar = () => {
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <IconButton color='inherit' size='small'>
+        <IconButton color='inherit' size='small' onClick={toggleNotifications}>
           <NotificationsIcon />
         </IconButton>
-
+        <NotificationBar open={notificationsOpen} toggleOpen={toggleNotifications} />
         <IconButton color='inherit' size='small'>
           <BatteryChargingFullIcon />
         </IconButton>
