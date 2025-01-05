@@ -10,8 +10,8 @@ import TaskbarApp from './TaskbarApp'
 import { useTaskbarStore } from '../stores/TaskbarStore'
 import { FileSystemNode } from '../types'
 import { useWindowStore } from '../stores/WindowStore'
-import { runProgram } from '../files/utils'
-import { PROGRAMS } from '../files/programs'
+import { runProgram } from '../system/utils'
+import { PROGRAMS } from '../system/programs'
 
 const { TASKBAR_HEIGHT } = DIMENSIONS
 

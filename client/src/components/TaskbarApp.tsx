@@ -5,7 +5,7 @@ import { useWindowStore } from '../stores/WindowStore'
 import ItemContextMenu from './ItemContextMenu'
 import { useContextMenu } from '../hooks/useContextMenu'
 import { useTaskbarStore } from '../stores/TaskbarStore'
-import { PROGRAM_ICONS, runProgram } from '../files/utils'
+import { PROGRAM_ICONS, runProgram } from '../system/utils'
 
 interface TaskbarAppProps {
   app: FileSystemNode

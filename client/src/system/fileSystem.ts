@@ -7,7 +7,7 @@ export const FILE_SYSTEM: FileSystemNode[] = [
     fileName: 'root',
     title: 'Explorer',
     type: ProgramType.Folder,
-    iconKey: AppIcon.FolderColored,
+    iconKey: AppIcon.Folder,
     contentKey: '0',
     children: [
       {
@@ -31,7 +31,7 @@ export const FILE_SYSTEM: FileSystemNode[] = [
         fileName: 'portfolio',
         title: 'Portfolio',
         type: ProgramType.App,
-        iconKey: AppIcon.Folder,
+        iconKey: AppIcon.File,
         contentKey: 'Portfolio',
       },
       {
@@ -47,7 +47,7 @@ export const FILE_SYSTEM: FileSystemNode[] = [
             fileName: 'about-me',
             title: 'About me',
             type: ProgramType.App,
-            iconKey: AppIcon.Folder,
+            iconKey: AppIcon.File,
             contentKey: 'About me',
           },
           {
@@ -55,7 +55,7 @@ export const FILE_SYSTEM: FileSystemNode[] = [
             fileName: 'skills',
             title: 'Skills',
             type: ProgramType.App,
-            iconKey: AppIcon.Folder,
+            iconKey: AppIcon.File,
             contentKey: 'Skills',
           },
           {
@@ -63,7 +63,7 @@ export const FILE_SYSTEM: FileSystemNode[] = [
             fileName: 'education',
             title: 'Education',
             type: ProgramType.App,
-            iconKey: AppIcon.Folder,
+            iconKey: AppIcon.File,
             contentKey: 'Education',
           },
           {
@@ -71,8 +71,16 @@ export const FILE_SYSTEM: FileSystemNode[] = [
             fileName: 'experience',
             title: 'Experience',
             type: ProgramType.App,
-            iconKey: AppIcon.Folder,
+            iconKey: AppIcon.File,
             contentKey: 'Experience',
+          },
+          {
+            id: 'a55730c2-2dfd-4781-8b0b-2cf337685555',
+            fileName: 'contacts',
+            title: 'Contacts',
+            type: ProgramType.App,
+            iconKey: AppIcon.Contacts,
+            contentKey: 'Contacts',
           },
         ],
       },

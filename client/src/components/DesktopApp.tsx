@@ -9,7 +9,7 @@ import { useWindowStore } from '../stores/WindowStore'
 import { DIMENSIONS } from '../config'
 import ItemContextMenu from './ItemContextMenu'
 import { useContextMenu } from '../hooks/useContextMenu'
-import { PROGRAM_ICONS, runProgram } from '../files/utils'
+import { PROGRAM_ICONS, runProgram } from '../system/utils'
 import { resolveDesktopItemPosition } from '../utils'
 
 const { FOLDER_SIZE, BOUNDS } = DIMENSIONS

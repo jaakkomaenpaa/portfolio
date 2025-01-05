@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { v4 as uuidv4 } from 'uuid'
 import { FileSystemNode } from '../types'
-import { TASKBAR_ITEMS } from '../files/programs'
+import { TASKBAR_ITEMS } from '../system/programs'
 
 interface TaskbarStore {
   taskbarItems: FileSystemNode[]

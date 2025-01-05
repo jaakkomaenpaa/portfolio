@@ -4,9 +4,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 import { FileSystemNode, ProgramType } from '../types'
 import { useWindowStore } from '../stores/WindowStore'
-import { FILE_SYSTEM } from '../files/fileSystem'
-import { runProgram } from '../files/utils'
-import { PROGRAMS } from '../files/programs'
+import { FILE_SYSTEM } from '../system/fileSystem'
+import { runProgram } from '../system/utils'
+import { PROGRAMS } from '../system/programs'
 
 interface FileExplorerItemProps {
   node: FileSystemNode

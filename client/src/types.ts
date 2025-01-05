@@ -12,15 +12,16 @@ export interface Position {
 }
 
 export enum AppIcon {
-  FolderColored,
   Folder,
+  File,
   Calculator,
   GitHub,
   LinkedIn,
   Code,
   CommandKey,
   Settings,
-  QuoteMark
+  QuoteMark,
+  Contacts
 }
 
 export interface FileSystemNode {

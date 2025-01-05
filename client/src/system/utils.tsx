@@ -7,23 +7,26 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import CodeIcon from '@mui/icons-material/Code'
 import KeyboardCommandKeyIcon from '@mui/icons-material/KeyboardCommandKey'
 import SettingsIcon from '@mui/icons-material/Settings'
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
+import FormatQuoteIcon from '@mui/icons-material/FormatQuote'
+import ContactsIcon from '@mui/icons-material/Contacts'
 
-import AboutMe from '../folders/AboutMe'
-import Portfolio from '../folders/Portfolio'
-import Skills from '../folders/Skills'
-import Education from '../folders/Education'
-import Experience from '../folders/Experience'
+import AboutMe from '../files/AboutMe'
+import Portfolio from '../files/Portfolio'
+import Skills from '../files/Skills'
+import Education from '../files/Education'
+import Experience from '../files/Experience'
 import Calculator from '../apps/Calculator'
 import FileExplorer from '../programs/FileExplorer'
 import CommandLine from '../programs/CommandLine'
 import Settings from '../programs/Settings'
 import RandomAdvice from '../apps/RandomAdvice'
-import FormatQuoteIcon from '@mui/icons-material/FormatQuote'
 import { PROGRAMS } from './programs'
+import Contacts from '../files/Contacts'
 
 export const PROGRAM_ICONS: Record<AppIcon, (props: any) => ReactNode> = {
-  [AppIcon.FolderColored]: (props: any) => <FolderIcon color='folder' {...props} />,
-  [AppIcon.Folder]: (props: any) => <FolderIcon {...props} />,
+  [AppIcon.Folder]: (props: any) => <FolderIcon color='folder' {...props} />,
+  [AppIcon.File]: (props: any) => <InsertDriveFileIcon {...props} />,
   [AppIcon.Calculator]: (props: any) => <CalculateIcon {...props} />,
   [AppIcon.GitHub]: (props: any) => <GitHubIcon {...props} />,
   [AppIcon.LinkedIn]: (props: any) => <LinkedInIcon {...props} />,
@@ -31,6 +34,7 @@ export const PROGRAM_ICONS: Record<AppIcon, (props: any) => ReactNode> = {
   [AppIcon.CommandKey]: (props: any) => <KeyboardCommandKeyIcon {...props} />,
   [AppIcon.Settings]: (props: any) => <SettingsIcon {...props} />,
   [AppIcon.QuoteMark]: (props: any) => <FormatQuoteIcon {...props} />,
+  [AppIcon.Contacts]: (props: any) => <ContactsIcon {...props} />,
 }
 
 export const APP_CONTENTS: Record<string, ReactNode> = {
@@ -44,6 +48,7 @@ export const APP_CONTENTS: Record<string, ReactNode> = {
   ['Cmd line']: <CommandLine />,
   ['Settings']: <Settings />,
   ['Random advice']: <RandomAdvice />,
+  ['Contacts']: <Contacts />,
 }
 
 export const runProgram = (

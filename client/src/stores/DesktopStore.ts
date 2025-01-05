@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { v4 as uuidv4 } from 'uuid'
 import { Position, DesktopItem } from '../types'
-import { DESKTOP_ITEMS } from '../files/programs'
+import { DESKTOP_ITEMS } from '../system/programs'
 
 interface DesktopStore {
   desktopItems: DesktopItem[]

@@ -6,10 +6,10 @@ import {
   useRef,
   useState,
 } from 'react'
-import { PROGRAMS } from '../files/programs'
+import { PROGRAMS } from '../system/programs'
 import { FileSystemNode, ProgramType } from '../types'
 import { Box, TextField, Typography } from '@mui/material'
-import { runProgram } from '../files/utils'
+import { runProgram } from '../system/utils'
 import { useWindowStore } from '../stores/WindowStore'
 
 const CommandLine = () => {
