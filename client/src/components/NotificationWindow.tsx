@@ -1,6 +1,7 @@
 import { Box, Button, styled, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { TIMERS, DIMENSIONS } from '../config'
+import { DIMENSIONS } from '../config'
+import { useNotificationStore } from '../stores/NotificationStore'
 
 const NotificationContainer = styled(Box)(({ theme }) => ({
   position: 'fixed',
@@ -36,16 +37,17 @@ interface NotificationWindowProps {
 const NotificationWindow = ({ message, onClose }: NotificationWindowProps) => {
   const [isFadingOut, setIsFadingOut] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
+  const { notificationDurationMs } = useNotificationStore()
 
   useEffect(() => {
     const fadeInTimer = setTimeout(() => setIsVisible(true), 10)
 
     const fadeOutTimer = setTimeout(
       () => setIsFadingOut(true),
-      TIMERS.NOTIFICATION_FADE_OUT - 300
+      notificationDurationMs - 300
     )
 
-    const closeTimer = setTimeout(() => onClose(), TIMERS.NOTIFICATION_FADE_OUT)
+    const closeTimer = setTimeout(() => onClose(), notificationDurationMs)
 
     return () => {
       clearTimeout(fadeInTimer)

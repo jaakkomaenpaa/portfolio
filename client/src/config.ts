@@ -13,7 +13,7 @@ const BOTTOM_BOUND =
 
 // Milliseconds, interval should be higher than fade out
 const POLL_INTERVAL = 60000
-const NOTIFICATION_FADE_OUT = 8000
+const NOTIFICATION_DURATION = 10000
 
 const RANDOM_ADVICE_URL = 'https://api.adviceslip.com/advice'
 
@@ -32,7 +32,7 @@ export const DIMENSIONS = {
 
 export const TIMERS = {
   POLL_INTERVAL,
-  NOTIFICATION_FADE_OUT,
+  NOTIFICATION_DURATION,
 }
 
 export const URLS = {

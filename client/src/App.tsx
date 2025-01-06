@@ -9,7 +9,6 @@ import MobileWarning from './components/MobileWarning'
 import NotificationWindow from './components/NotificationWindow'
 import { useNotificationStore } from './stores/NotificationStore'
 import adviceService from './services/advice'
-import { TIMERS } from './config'
 
 const AppContainer = styled(Box)(() => ({
   display: 'flex',
@@ -19,8 +18,12 @@ const AppContainer = styled(Box)(() => ({
 
 const App = () => {
   const { isDarkMode } = useThemeStore()
-  const { activeNotifications, closeNotification, showNotification } =
-    useNotificationStore()
+  const {
+    activeNotifications,
+    closeNotification,
+    showNotification,
+    pollerIntervalMs,
+  } = useNotificationStore()
 
   useEffect(() => {
     const poller = setInterval(async () => {
@@ -29,12 +32,10 @@ const App = () => {
         const advice = await adviceService.getRandom()
         showNotification(advice)
       }
-    }, TIMERS.POLL_INTERVAL)
+    }, pollerIntervalMs)
 
     return () => clearInterval(poller)
   }, [])
-
-  console.log('test', activeNotifications)
 
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
