@@ -11,6 +11,10 @@ const RIGHT_BOUND = window.innerWidth - FOLDER_SIZE
 const BOTTOM_BOUND =
   window.innerHeight - FOLDER_SIZE - TASKBAR_HEIGHT + GRID_SIZE_Y / 2
 
+// Milliseconds, interval should be higher than fade out
+const POLL_INTERVAL = 60000
+const NOTIFICATION_FADE_OUT = 8000
+
 const RANDOM_ADVICE_URL = 'https://api.adviceslip.com/advice'
 
 export const DIMENSIONS = {
@@ -24,6 +28,11 @@ export const DIMENSIONS = {
     right: RIGHT_BOUND,
     bottom: BOTTOM_BOUND,
   },
+}
+
+export const TIMERS = {
+  POLL_INTERVAL,
+  NOTIFICATION_FADE_OUT,
 }
 
 export const URLS = {

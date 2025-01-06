@@ -23,6 +23,7 @@ const NotificationItem = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: '8px',
+  color: theme.palette.text.secondary,
 }))
 
 interface NotificationBarProps {

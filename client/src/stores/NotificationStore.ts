@@ -10,11 +10,7 @@ interface NotificationStore {
 }
 
 export const useNotificationStore = create<NotificationStore>((set, get) => ({
-  notifications: [
-    { id: 1, message: 'You have a new message.' },
-    { id: 2, message: 'Your update was successful.' },
-    { id: 3, message: 'A new task was assigned to you.' },
-  ],
+  notifications: [],
   activeNotifications: [],
   nextId: 1,
   showNotification: (message: string) => {

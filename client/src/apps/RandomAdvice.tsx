@@ -1,27 +1,13 @@
 import { useState } from 'react'
 import { Box, Button, Typography } from '@mui/material'
-import axios from 'axios'
-
-import { URLS } from '../config'
-
-interface RandomAdviceResponse {
-  slip: {
-    id: number
-    advice: string
-  }
-}
+import adviceService from '../services/advice'
 
 const RandomAdvice = () => {
   const [currentAdvice, setCurrentAdvice] = useState<string>('')
 
   const handleGetAdvice = async () => {
-    const response = await axios.get(URLS.RANDOM_ADVICE_URL)
-    const adviceObject: RandomAdviceResponse = response.data
-    const advice = adviceObject.slip.advice
-
-    if (advice) {
-      setCurrentAdvice(advice)
-    }
+    const advice = await adviceService.getRandom()
+    setCurrentAdvice(advice)
   }
 
   return (

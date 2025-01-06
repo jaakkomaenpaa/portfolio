@@ -1,10 +1,11 @@
 import { Box, Button, styled, Typography } from '@mui/material'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { TIMERS, DIMENSIONS } from '../config'
 
 const NotificationContainer = styled(Box)(({ theme }) => ({
   position: 'fixed',
-  bottom: '16px',
-  right: '16px',
+  bottom: DIMENSIONS.TASKBAR_HEIGHT,
+  right: '10px',
   backgroundColor: theme.palette.background.paper,
   boxShadow: theme.shadows[4],
   padding: '16px',
@@ -12,15 +13,18 @@ const NotificationContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: '12px',
-  zIndex: 1000,
-  animation: 'fadeIn 0.3s, fadeOut 0.3s 9.7s',
-  '@keyframes fadeIn': {
-    from: { opacity: 0, transform: 'translateY(20px)' },
-    to: { opacity: 1, transform: 'translateY(0)' },
+  maxWidth: '400px',
+  zIndex: 1500,
+  opacity: 0,
+  transform: 'translateY(20px)',
+  transition: 'opacity 0.3s, transform 0.3s',
+  '&.fadeIn': {
+    opacity: 1,
+    transform: 'translateY(0)',
   },
-  '@keyframes fadeOut': {
-    from: { opacity: 1, transform: 'translateY(0)' },
-    to: { opacity: 0, transform: 'translateY(20px)' },
+  '&.fadeOut': {
+    opacity: 0,
+    transform: 'translateY(20px)',
   },
 }))
 
@@ -30,13 +34,30 @@ interface NotificationWindowProps {
 }
 
 const NotificationWindow = ({ message, onClose }: NotificationWindowProps) => {
+  const [isFadingOut, setIsFadingOut] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+
   useEffect(() => {
-    const timer = setTimeout(onClose, 10000)
-    return () => clearTimeout(timer)
+    const fadeInTimer = setTimeout(() => setIsVisible(true), 10)
+
+    const fadeOutTimer = setTimeout(
+      () => setIsFadingOut(true),
+      TIMERS.NOTIFICATION_FADE_OUT - 300
+    )
+
+    const closeTimer = setTimeout(() => onClose(), TIMERS.NOTIFICATION_FADE_OUT)
+
+    return () => {
+      clearTimeout(fadeInTimer)
+      clearTimeout(fadeOutTimer)
+      clearTimeout(closeTimer)
+    }
   }, [onClose])
 
   return (
-    <NotificationContainer>
+    <NotificationContainer
+      className={`${isVisible ? 'fadeIn' : ''} ${isFadingOut ? 'fadeOut' : ''}`}
+    >
       <Typography>{message}</Typography>
       <Button size='small' variant='text' onClick={onClose}>
         Close

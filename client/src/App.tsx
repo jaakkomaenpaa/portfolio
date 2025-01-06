@@ -1,11 +1,15 @@
 import { Box, CssBaseline, styled, ThemeProvider } from '@mui/material'
+import { useEffect } from 'react'
+
 import Taskbar from './components/Taskbar'
 import Desktop from './components/Desktop'
 import { useThemeStore } from './stores/ThemeStore'
 import { darkTheme, lightTheme } from './theme'
 import MobileWarning from './components/MobileWarning'
-import Notification from './components/NotificationWindow'
+import NotificationWindow from './components/NotificationWindow'
 import { useNotificationStore } from './stores/NotificationStore'
+import adviceService from './services/advice'
+import { TIMERS } from './config'
 
 const AppContainer = styled(Box)(() => ({
   display: 'flex',
@@ -15,7 +19,22 @@ const AppContainer = styled(Box)(() => ({
 
 const App = () => {
   const { isDarkMode } = useThemeStore()
-  const { activeNotifications, closeNotification } = useNotificationStore()
+  const { activeNotifications, closeNotification, showNotification } =
+    useNotificationStore()
+
+  useEffect(() => {
+    const poller = setInterval(async () => {
+      const randomChance = Math.random()
+      if (randomChance <= 0.2) {
+        const advice = await adviceService.getRandom()
+        showNotification(advice)
+      }
+    }, TIMERS.POLL_INTERVAL)
+
+    return () => clearInterval(poller)
+  }, [])
+
+  console.log('test', activeNotifications)
 
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
@@ -25,9 +44,9 @@ const App = () => {
         <Desktop />
         <Taskbar />
 
-        {activeNotifications.map((notification, index) => (
-          <Notification
-            key={index}
+        {activeNotifications.map((notification) => (
+          <NotificationWindow
+            key={notification.id}
             message={notification.message}
             onClose={() => closeNotification(notification.id)}
           />
@@ -37,8 +56,3 @@ const App = () => {
   )
 }
 export default App
-
-/* 
-
-
-*/
