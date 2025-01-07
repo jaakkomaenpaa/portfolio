@@ -1,0 +1,23 @@
+{
+  "name": "Jaakko Mäenpää",
+  "short_name": "Maenpaa",
+  "description": "Portfolio - Jaakko Mäenpää",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#2a2a2a",
+  "theme_color": "#1e1e1e",
+  "id": "/",
+  "icons": [
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

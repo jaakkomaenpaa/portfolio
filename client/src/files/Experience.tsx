@@ -24,7 +24,7 @@ const StartupWindow = () => {
       <Typography sx={{ mb: 1 }}>General</Typography>
       <Typography sx={{ mb: 3, color: 'text.secondary' }}>
         Started working in a 4-person startup in April 2024 alongside studies as a
-        side business.
+        side project.
       </Typography>
       <Typography sx={{ mb: 1 }}>Product</Typography>
       <Typography sx={{ mb: 3, color: 'text.secondary' }}>

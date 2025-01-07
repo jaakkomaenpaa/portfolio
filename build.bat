@@ -1,3 +1,4 @@
+call nssm stop portfolio
 cd client
 call npm run build
-call npm run preview
+call nssm start portfolio

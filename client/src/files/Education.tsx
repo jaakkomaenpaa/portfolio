@@ -88,7 +88,7 @@ const Education = () => {
           </TextRow>
           <TextRow>
             <Typography>Minor:</Typography>
-            <Typography>Advanced studies in Software Engineering</Typography>
+            <Typography>Advanced Studies in Software Engineering</Typography>
           </TextRow>
         </TextSection>
       </InfoSection>
